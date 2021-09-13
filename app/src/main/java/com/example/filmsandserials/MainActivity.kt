@@ -11,10 +11,10 @@ import com.example.filmsandserials.fragments.TopFragment
 import com.example.filmsandserials.interfaces.FilmsFragmentInterface
 import com.example.filmsandserials.interfaces.SearchFragmentInterface
 import com.example.filmsandserials.interfaces.StartFragmentInterface
-import com.example.filmsandserials.interfaces.TopFragmentInterface
+import com.example.filmsandserials.interfaces.TopFragmentClickListener
 
 class MainActivity : AppCompatActivity(), StartFragmentInterface, FilmsFragmentInterface,
-    SearchFragmentInterface, TopFragmentInterface {
+    SearchFragmentInterface, TopFragmentClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
