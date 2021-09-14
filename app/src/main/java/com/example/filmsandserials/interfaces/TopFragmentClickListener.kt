@@ -1,5 +1,5 @@
 package com.example.filmsandserials.interfaces
 
-interface TopFragmentInterface {
+interface TopFragmentClickListener {
     fun onBackButtonClicked()
 }
