@@ -89,7 +89,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 tools:text="Top 20 Популярных фильмов"
-                android:text="Top 20 фильмов по популярности"
+                android:text="@string/top_20_popular_film"
                 android:layout_margin="8dp"
                 android:textColor="@color/black"
                 android:textSize="28sp"
@@ -131,7 +131,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 tools:text="Top 20 фильмов по рейтингу"
-                android:text="Top 20 фильмов по рейтингу"
+                android:text="@string/top_20_rating_film"
                 android:layout_margin="8dp"
                 android:textColor="@color/black"
                 android:textSize="28sp"
@@ -142,7 +142,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
-
 
     <androidx.cardview.widget.CardView
         android:id="@+id/search_cardView"

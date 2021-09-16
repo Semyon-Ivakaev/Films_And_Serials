@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.filmsandserials.databinding.FilmsFragmentBinding
+import com.example.filmsandserials.fragments.presenters.FilmsFragmentPresenter
 import com.example.filmsandserials.interfaces.FilmsFragmentInterface
 
 class FilmsFragment: Fragment() {
+    private var filmsFragmentPresenter = FilmsFragmentPresenter()
     lateinit var binding: FilmsFragmentBinding
     private var filmsFragmentInterface: FilmsFragmentInterface? = null
 
@@ -20,22 +22,29 @@ class FilmsFragment: Fragment() {
     ): View? {
         binding = FilmsFragmentBinding.inflate(layoutInflater, container, false)
         val view = binding.root
-
-        initViews()
+        filmsFragmentPresenter.attachView(this)
+        val fragmentTag = arguments?.getString("TAG")
+        initViews(fragmentTag)
 
         return view
     }
 
-    private fun initViews() {
+    private fun initFilmsView() {
+
+    }
+
+    private fun initViews(fragmentTag: String?) {
+        val popularTag = "Popular$fragmentTag"
+        val ratingTag = "Rating$fragmentTag"
         with(binding) {
             backButton.setOnClickListener {
                 filmsFragmentInterface?.onBackButtonClicked()
             }
             popularCardView.setOnClickListener {
-                filmsFragmentInterface?.onPopularButtonClicked("PopularFilm")
+                filmsFragmentInterface?.onPopularButtonClicked(popularTag)
             }
             ratingCardView.setOnClickListener {
-                filmsFragmentInterface?.onPopularButtonClicked("RatingFilm")
+                filmsFragmentInterface?.onPopularButtonClicked(ratingTag)
             }
             searchCardView.setOnClickListener {
                 filmsFragmentInterface?.onSearchButtonClicked()
@@ -53,7 +62,16 @@ class FilmsFragment: Fragment() {
     override fun onDetach() {
         super.onDetach()
         filmsFragmentInterface = null
+        filmsFragmentPresenter.detachView()
     }
 
-
+    companion object {
+        fun newInstance(fragmentTag: String) : FilmsFragment {
+            val args = Bundle()
+            args.putString("TAG", fragmentTag)
+            val fragment = FilmsFragment()
+            fragment.arguments = args
+            return fragment
+        }
+    }
 }
