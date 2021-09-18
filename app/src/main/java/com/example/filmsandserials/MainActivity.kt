@@ -15,7 +15,7 @@ import com.example.filmsandserials.interfaces.TopFragmentClickListener
 
 
 class MainActivity : AppCompatActivity(), StartFragmentInterface, MainMenuFragmentInterface,
-    SearchFragmentInterface, TopFragmentInterface {
+    SearchFragmentInterface, TopFragmentClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
