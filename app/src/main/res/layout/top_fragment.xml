@@ -33,7 +33,6 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_end="8dp"/>
 
-
     <ImageButton
         android:id="@+id/backButton"
         android:layout_width="35dp"
@@ -43,20 +42,23 @@
         android:src="@drawable/ic_baseline_arrow_back_24" />
 
     <TextView
-        android:id="@+id/films_title"
+        android:id="@+id/top_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Test"
-        android:textSize="24sp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
         app:layout_constraintTop_toTopOf="@id/top_guideline"
         app:layout_constraintStart_toEndOf="@id/backButton"
-        app:layout_constraintEnd_toEndOf="@id/end_guideline"/>
+        app:layout_constraintEnd_toEndOf="@id/end_guideline"
+        app:layout_constraintBottom_toBottomOf="@id/title_barrier"/>
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/title_barrier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="backButton,films_title"
+        app:constraint_referenced_ids="backButton,top_title"
         app:barrierDirection="bottom"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,17 +4,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import com.example.filmsandserials.fragments.FilmsFragment
+import com.example.filmsandserials.fragments.MainMenuFragment
 import com.example.filmsandserials.fragments.SearchFragment
 import com.example.filmsandserials.fragments.StartFragment
 import com.example.filmsandserials.fragments.TopFragment
-import com.example.filmsandserials.interfaces.FilmsFragmentInterface
+import com.example.filmsandserials.interfaces.MainMenuFragmentInterface
 import com.example.filmsandserials.interfaces.SearchFragmentInterface
 import com.example.filmsandserials.interfaces.StartFragmentInterface
 import com.example.filmsandserials.interfaces.TopFragmentClickListener
 
-class MainActivity : AppCompatActivity(), StartFragmentInterface, FilmsFragmentInterface,
-    SearchFragmentInterface, TopFragmentClickListener {
+
+class MainActivity : AppCompatActivity(), StartFragmentInterface, MainMenuFragmentInterface,
+    SearchFragmentInterface, TopFragmentInterface {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -26,17 +27,12 @@ class MainActivity : AppCompatActivity(), StartFragmentInterface, FilmsFragmentI
         }
     }
 
-    override fun onFilmsButtonClicked() {
+    override fun onTypeContentButtonClicked(typeContent: String) {
         Log.v("AppVerbose", "onFilmsButtonClicked")
         supportFragmentManager.beginTransaction()
-            .replace(R.id.main_container, FilmsFragment())
+            .replace(R.id.main_container, MainMenuFragment.newInstance(typeContent))
             .addToBackStack(null)
             .commit()
-    }
-
-    override fun onSerialsButtonClicked() {
-        Log.v("AppVerbose", "onSerialsButtonClicked")
-        Toast.makeText(applicationContext, "onSerialsButtonClicked", Toast.LENGTH_SHORT).show()
     }
 
     override fun onBackButtonClicked() {
@@ -49,7 +45,7 @@ class MainActivity : AppCompatActivity(), StartFragmentInterface, FilmsFragmentI
         }
     }
 
-    override fun onPopularButtonClicked(buttonTag: String) {
+    override fun onTopTypeButtonClicked(buttonTag: String) {
         Log.v("AppVerbose", "onPopularButtonClicked")
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_container, TopFragment.newInstance(buttonTag))
@@ -58,7 +54,7 @@ class MainActivity : AppCompatActivity(), StartFragmentInterface, FilmsFragmentI
     }
 
     override fun onSearchButtonClicked() {
-        Log.v("AppVerbose", "onPopularButtonClicked")
+        Log.v("AppVerbose", "onSearchButtonClicked")
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_container, SearchFragment())
             .addToBackStack(null)

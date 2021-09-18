@@ -28,7 +28,7 @@ class StartFragment: Fragment() {
                 translationY = -500f
                 animate()?.alpha(1f)?.translationYBy(500f)?.duration = 1500
                 setOnClickListener {
-                    startFragmentInterface?.onFilmsButtonClicked()
+                    startFragmentInterface?.onTypeContentButtonClicked("FILM")
                 }
             }
             bottomCircle.apply {
@@ -36,7 +36,7 @@ class StartFragment: Fragment() {
                 translationY = 500f
                 animate()?.alpha(1f)?.translationYBy(-500f)?.duration = 1500
                 setOnClickListener {
-                    startFragmentInterface?.onSerialsButtonClicked()
+                    startFragmentInterface?.onTypeContentButtonClicked("SERIAL")
                 }
             }
         }

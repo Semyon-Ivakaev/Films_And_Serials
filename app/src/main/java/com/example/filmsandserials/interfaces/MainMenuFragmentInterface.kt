@@ -1,9 +1,9 @@
 package com.example.filmsandserials.interfaces
 
-interface FilmsFragmentInterface {
+interface MainMenuFragmentInterface {
     fun onBackButtonClicked()
 
-    fun onPopularButtonClicked(buttonTag: String)
+    fun onTopTypeButtonClicked(buttonTag: String)
 
     fun onSearchButtonClicked()
 }

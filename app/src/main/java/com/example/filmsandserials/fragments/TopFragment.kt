@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.filmsandserials.R
 import com.example.filmsandserials.databinding.TopFragmentBinding
 import com.example.filmsandserials.interfaces.TopFragmentClickListener
 
@@ -25,16 +26,22 @@ class TopFragment:Fragment() {
 
         val typeData = arguments?.getString("TAG")
 
-        initViews()
+        initViews(typeData)
 
         return view
     }
 
-    private fun initViews() {
+    private fun initViews(typeData: String?) {
         with(binding) {
             backButton.setOnClickListener {
                 Log.v("AppVerbose", "Click on Back")
                 topFragmentClickListener?.onBackButtonClicked()
+            }
+            when (typeData) {
+                "Popular_FILM" -> topTitle.text = context?.getString(R.string.top_20_popular_film)
+                "Popular_SERIAL" -> topTitle.text = context?.getString(R.string.top_20_popular_serials)
+                "Rating_FILM" -> topTitle.text = context?.getString(R.string.top_20_rating_film)
+                "Rating_SERIAL" -> topTitle.text = context?.getString(R.string.top_20_rating_serial)
             }
         }
     }
