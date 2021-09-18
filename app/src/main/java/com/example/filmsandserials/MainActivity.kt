@@ -11,7 +11,8 @@ import com.example.filmsandserials.fragments.TopFragment
 import com.example.filmsandserials.interfaces.MainMenuFragmentInterface
 import com.example.filmsandserials.interfaces.SearchFragmentInterface
 import com.example.filmsandserials.interfaces.StartFragmentInterface
-import com.example.filmsandserials.interfaces.TopFragmentInterface
+import com.example.filmsandserials.interfaces.TopFragmentClickListener
+
 
 class MainActivity : AppCompatActivity(), StartFragmentInterface, MainMenuFragmentInterface,
     SearchFragmentInterface, TopFragmentInterface {
