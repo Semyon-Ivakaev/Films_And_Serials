@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.example.filmsandserials.R
 import com.example.filmsandserials.databinding.TopFragmentBinding
 import com.example.filmsandserials.interfaces.TopFragmentClickListener
+import com.example.filmsandserials.model.services.RatingServiceApiImpl
 
 class TopFragment:Fragment() {
     lateinit var binding: TopFragmentBinding
@@ -27,6 +28,10 @@ class TopFragment:Fragment() {
         val typeData = arguments?.getString("TAG")
 
         initViews(typeData)
+
+        val top = RatingServiceApiImpl.ratingResponseApiService.getFilmRatingService("movie", "ru-RU")
+        // TODO: Вынести запрос в отдельный поток.
+        Log.v("App", top.execute().toString())
 
         return view
     }
