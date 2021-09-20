@@ -11,6 +11,10 @@ import com.example.filmsandserials.R
 import com.example.filmsandserials.databinding.TopFragmentBinding
 import com.example.filmsandserials.interfaces.TopFragmentClickListener
 import com.example.filmsandserials.model.services.RatingServiceApiImpl
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class TopFragment:Fragment() {
     lateinit var binding: TopFragmentBinding
@@ -29,9 +33,9 @@ class TopFragment:Fragment() {
 
         initViews(typeData)
 
-        val top = RatingServiceApiImpl.ratingResponseApiService.getFilmRatingService("movie", "ru-RU")
-        // TODO: Вынести запрос в отдельный поток.
-        Log.v("App", top.execute().toString())
+        CoroutineScope(Dispatchers.Default).launch {
+            val top = RatingServiceApiImpl.ratingResponseApiService.getFilmRatingService("movie", "ru-RU").execute()
+        }
 
         return view
     }
