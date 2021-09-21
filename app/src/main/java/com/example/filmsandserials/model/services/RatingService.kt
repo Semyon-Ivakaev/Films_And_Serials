@@ -2,17 +2,12 @@ package com.example.filmsandserials.model.services
 
 import android.util.Log
 import com.example.filmsandserials.data.Film
-import com.example.filmsandserials.model.data_connections.RatingResponse
-import com.google.gson.Gson
-import kotlinx.coroutines.CoroutineScope
+import com.example.filmsandserials.model.data_connections.FilmResponse
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -20,11 +15,12 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface RatingService {
-    @GET("3/{data_type}/top_rated?api_key=c30931d27347b1937173c48adc4aa322")
-    fun getFilmRatingService(
+    @GET("3/{data_type}/{top_type}?api_key=c30931d27347b1937173c48adc4aa322")
+    fun getTopFilmService(
         @Path("data_type") type: String,
+        @Path("top_type") topType: String,
         @Query("language") language: String
-    ): Call<RatingResponse>
+    ): Call<FilmResponse>
 }
 
 object RatingServiceApiImpl{
@@ -41,10 +37,10 @@ object RatingServiceApiImpl{
 
     private val ratingResponseApiService = retrofit.create(RatingService::class.java)
 
-    suspend fun getFilmRatingService(type: String, lang: String): List<Film>? {
+    suspend fun getTopFilmService(type: String, top_type: String, lang: String): List<Film>? {
         Log.v("App", "getFilmRatingService")
         return withContext(Dispatchers.Default) {
-            ratingResponseApiService.getFilmRatingService(type, lang).execute()
+            ratingResponseApiService.getTopFilmService(type, top_type, lang).execute()
                 .body()?.results?.map { result ->
                 Film(
                     result.id,
