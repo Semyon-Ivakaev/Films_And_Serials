@@ -32,8 +32,8 @@ class MainMenuFragment: Fragment() {
     }
 
     private fun initViews(fragmentTag: String?) {
-        val popularTag = "Popular_$fragmentTag"
         val ratingTag = "Rating_$fragmentTag"
+        val popularTag = "Popular_$fragmentTag"
 
         with(binding) {
             backButton.setOnClickListener {

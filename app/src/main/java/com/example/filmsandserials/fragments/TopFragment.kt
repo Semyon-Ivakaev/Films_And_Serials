@@ -11,7 +11,6 @@ import com.example.filmsandserials.R
 import com.example.filmsandserials.data.Film
 import com.example.filmsandserials.databinding.TopFragmentBinding
 import com.example.filmsandserials.interfaces.TopFragmentClickListener
-import com.example.filmsandserials.model.data_connections.RatingResponse
 import com.example.filmsandserials.model.services.RatingServiceApiImpl
 import com.google.gson.Gson
 import kotlinx.coroutines.*
@@ -30,12 +29,18 @@ class TopFragment:Fragment() {
         val view = binding.root
 
         val typeData = arguments?.getString("TAG")
-
+        Log.v("App", typeData!!)
         initViews(typeData)
 
         // Временное решение, будет перенесено во ViewModel
         CoroutineScope(Dispatchers.IO + Job()).launch {
-            val top = RatingServiceApiImpl.getFilmRatingService("movie", "ru-RU")
+            var top: List<Film>? = null
+            when (typeData) {
+                "Rating_FILM" -> top = RatingServiceApiImpl.getTopFilmService("movie", "top_rated","ru-RU")
+                "Popular_FILM" -> top = RatingServiceApiImpl.getTopFilmService("movie", "popular","ru-RU")
+//                "Rating_SERIAL" -> top = RatingServiceApiImpl.getFilmRatingService("tv", "top_rated","ru-RU")
+//                "Popular_SERIAL" -> top = RatingServiceApiImpl.getFilmRatingService("tv", "popular","ru-RU")
+            }
             delay(5000)
             Log.v("App", top.toString())
         }

@@ -3,17 +3,17 @@ package com.example.filmsandserials.model.data_connections
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class RatingResponse(
+data class SerialResponse(
     @SerializedName("results")
-    val results: List<RatingResponseResult>): Serializable
+    val results: List<SerialResponseResult>): Serializable
 
-data class RatingResponseResult(
+data class SerialResponseResult(
     @SerializedName("id")
     val id: Int,
-    @SerializedName("title")
-    val title: String,
-    @SerializedName("original_title")
-    val original_title: String,
+    @SerializedName("name")
+    val name: String,
+    @SerializedName("original_name")
+    val original_name: String,
     @SerializedName("overview")
     val overview: String,
     @SerializedName("poster_path")
