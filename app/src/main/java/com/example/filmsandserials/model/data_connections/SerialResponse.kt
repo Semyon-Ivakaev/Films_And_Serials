@@ -19,7 +19,7 @@ data class SerialResponseResult(
     @SerializedName("poster_path")
     val poster_path: String,
     @SerializedName("backdrop_path")
-    val backdrop_path: String,
+    val backdrop_path: String?,
     @SerializedName("popularity")
     val popularity: Double,
     @SerializedName("vote_average")

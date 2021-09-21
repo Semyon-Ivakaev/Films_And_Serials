@@ -36,10 +36,10 @@ class TopFragment:Fragment() {
         CoroutineScope(Dispatchers.IO + Job()).launch {
             var top: List<Film>? = null
             when (typeData) {
-                "Rating_FILM" -> top = RatingServiceApiImpl.getTopFilmService("movie", "top_rated","ru-RU")
-                "Popular_FILM" -> top = RatingServiceApiImpl.getTopFilmService("movie", "popular","ru-RU")
-//                "Rating_SERIAL" -> top = RatingServiceApiImpl.getFilmRatingService("tv", "top_rated","ru-RU")
-//                "Popular_SERIAL" -> top = RatingServiceApiImpl.getFilmRatingService("tv", "popular","ru-RU")
+                "Rating_FILM" -> top = RatingServiceApiImpl.getTopService("movie", "top_rated","ru-RU")
+                "Popular_FILM" -> top = RatingServiceApiImpl.getTopService("movie", "popular","ru-RU")
+                "Rating_SERIAL" -> top = RatingServiceApiImpl.getTopService("tv", "top_rated","ru-RU")
+                "Popular_SERIAL" -> top = RatingServiceApiImpl.getTopService("tv", "popular","ru-RU")
             }
             delay(5000)
             Log.v("App", top.toString())

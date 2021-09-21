@@ -3,6 +3,7 @@ package com.example.filmsandserials.model.services
 import android.util.Log
 import com.example.filmsandserials.data.Film
 import com.example.filmsandserials.model.data_connections.FilmResponse
+import com.example.filmsandserials.model.data_connections.SerialResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
@@ -21,6 +22,13 @@ interface RatingService {
         @Path("top_type") topType: String,
         @Query("language") language: String
     ): Call<FilmResponse>
+
+    @GET("3/{data_type}/{top_type}?api_key=c30931d27347b1937173c48adc4aa322")
+    fun getTopSerialService(
+        @Path("data_type") type: String,
+        @Path("top_type") topType: String,
+        @Query("language") language: String
+    ): Call<SerialResponse>
 }
 
 object RatingServiceApiImpl{
@@ -37,21 +45,38 @@ object RatingServiceApiImpl{
 
     private val ratingResponseApiService = retrofit.create(RatingService::class.java)
 
-    suspend fun getTopFilmService(type: String, top_type: String, lang: String): List<Film>? {
-        Log.v("App", "getFilmRatingService")
-        return withContext(Dispatchers.Default) {
-            ratingResponseApiService.getTopFilmService(type, top_type, lang).execute()
-                .body()?.results?.map { result ->
-                Film(
-                    result.id,
-                    result.title,
-                    result.original_title,
-                    result.overview,
-                    result.poster_path,
-                    result.backdrop_path,
-                    result.popularity,
-                    result.vote_average
-                )
+    suspend fun getTopService(type: String, top_type: String, lang: String): List<Film>? {
+        Log.v("App", "getFilmRatingService with param: $type")
+        when (type) {
+            "movie" -> return withContext(Dispatchers.Default) {
+                ratingResponseApiService.getTopFilmService(type, top_type, lang).execute()
+                    .body()?.results?.map { result ->
+                        Film(
+                            result.id,
+                            result.title,
+                            result.original_title,
+                            result.overview,
+                            result.poster_path,
+                            result.backdrop_path,
+                            result.popularity,
+                            result.vote_average
+                        )
+                    }
+            }
+            else -> return withContext(Dispatchers.Default) {
+                ratingResponseApiService.getTopSerialService(type, top_type, lang).execute()
+                    .body()?.results?.map { result ->
+                        Film(
+                            result.id,
+                            result.name,
+                            result.original_name,
+                            result.overview,
+                            result.poster_path,
+                            result.backdrop_path ?: result.poster_path,
+                            result.popularity,
+                            result.vote_average
+                        )
+                    }
             }
         }
     }
