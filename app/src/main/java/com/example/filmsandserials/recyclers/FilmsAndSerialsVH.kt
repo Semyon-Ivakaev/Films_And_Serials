@@ -16,7 +16,7 @@ class FilmsAndSerialsVH(
     fun bind(element: Film) {
         with(binding) {
             downloadMainPhoto(element.poster_path)
-            titleVh.text = element.name
+            titleVh.text = element.title
             if (element.isFavorite) {
                 likeVh.setBackgroundColor(R.color.like_active)
             } else {

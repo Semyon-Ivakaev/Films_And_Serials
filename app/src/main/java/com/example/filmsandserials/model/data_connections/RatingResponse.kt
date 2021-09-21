@@ -1,18 +1,28 @@
 package com.example.filmsandserials.model.data_connections
 
+import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class RatingResponse(
-    val result: List<RatingResponseResult>
-)
+    @SerializedName("results")
+    val results: List<RatingResponseResult>): Serializable
 
 data class RatingResponseResult(
+    @SerializedName("id")
     val id: Int,
+    @SerializedName("title")
     val title: String,
+    @SerializedName("original_title")
     val original_title: String,
+    @SerializedName("overview")
     val overview: String,
+    @SerializedName("poster_path")
     val poster_path: String,
+    @SerializedName("backdrop_path")
     val backdrop_path: String,
-    val popularity: Int,
+    @SerializedName("popularity")
+    val popularity: Double,
+    @SerializedName("vote_average")
     val vote_average: Double,
     var isFavorite: Boolean
 )

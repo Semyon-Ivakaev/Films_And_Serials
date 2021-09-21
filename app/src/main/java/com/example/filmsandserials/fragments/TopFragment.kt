@@ -8,13 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.filmsandserials.R
+import com.example.filmsandserials.data.Film
 import com.example.filmsandserials.databinding.TopFragmentBinding
 import com.example.filmsandserials.interfaces.TopFragmentClickListener
+import com.example.filmsandserials.model.data_connections.RatingResponse
 import com.example.filmsandserials.model.services.RatingServiceApiImpl
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.google.gson.Gson
+import kotlinx.coroutines.*
 
 class TopFragment:Fragment() {
     lateinit var binding: TopFragmentBinding
@@ -33,8 +33,11 @@ class TopFragment:Fragment() {
 
         initViews(typeData)
 
-        CoroutineScope(Dispatchers.Default).launch {
-            val top = RatingServiceApiImpl.ratingResponseApiService.getFilmRatingService("movie", "ru-RU").execute()
+        // Временное решение, будет перенесено во ViewModel
+        CoroutineScope(Dispatchers.IO + Job()).launch {
+            val top = RatingServiceApiImpl.getFilmRatingService("movie", "ru-RU")
+            delay(5000)
+            Log.v("App", top.toString())
         }
 
         return view
