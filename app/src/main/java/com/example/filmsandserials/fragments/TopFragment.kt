@@ -7,17 +7,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.example.filmsandserials.R
 import com.example.filmsandserials.data.Film
 import com.example.filmsandserials.databinding.TopFragmentBinding
 import com.example.filmsandserials.interfaces.TopFragmentClickListener
 import com.example.filmsandserials.model.services.RatingServiceApiImpl
+import com.example.filmsandserials.viewmodels.ContentViewModel
 import com.google.gson.Gson
 import kotlinx.coroutines.*
 
 class TopFragment:Fragment() {
     lateinit var binding: TopFragmentBinding
     private var topFragmentClickListener: TopFragmentClickListener? = null
+    private val contentViewModel: ContentViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,19 +35,11 @@ class TopFragment:Fragment() {
         val typeData = arguments?.getString("TAG")
         Log.v("App", typeData!!)
         initViews(typeData)
+        initViewModel(typeData)
 
-        // Временное решение, будет перенесено во ViewModel
-        CoroutineScope(Dispatchers.IO + Job()).launch {
-            var top: List<Film>? = null
-            when (typeData) {
-                "Rating_FILM" -> top = RatingServiceApiImpl.getTopService("movie", "top_rated","ru-RU")
-                "Popular_FILM" -> top = RatingServiceApiImpl.getTopService("movie", "popular","ru-RU")
-                "Rating_SERIAL" -> top = RatingServiceApiImpl.getTopService("tv", "top_rated","ru-RU")
-                "Popular_SERIAL" -> top = RatingServiceApiImpl.getTopService("tv", "popular","ru-RU")
-            }
-            delay(5000)
-            Log.v("App", top.toString())
-        }
+        contentViewModel.getContent().observe(viewLifecycleOwner, {
+            films -> Log.v("AppVerb", films.toString())
+        })
 
         return view
     }
@@ -59,6 +55,17 @@ class TopFragment:Fragment() {
                 "Popular_SERIAL" -> topTitle.text = context?.getString(R.string.top_20_popular_serials)
                 "Rating_FILM" -> topTitle.text = context?.getString(R.string.top_20_rating_film)
                 "Rating_SERIAL" -> topTitle.text = context?.getString(R.string.top_20_rating_serial)
+            }
+        }
+    }
+
+    private fun initViewModel(typeData: String?) {
+        CoroutineScope(Dispatchers.IO + Job()).launch {
+            when (typeData) {
+                "Rating_FILM" -> contentViewModel.loadContent("movie", "top_rated", "ru-RU")
+                "Popular_FILM" -> contentViewModel.loadContent("movie", "popular", "ru-RU")
+                "Rating_SERIAL" -> contentViewModel.loadContent("tv", "top_rated", "ru-RU")
+                "Popular_SERIAL" -> contentViewModel.loadContent("tv", "popular", "ru-RU")
             }
         }
     }
