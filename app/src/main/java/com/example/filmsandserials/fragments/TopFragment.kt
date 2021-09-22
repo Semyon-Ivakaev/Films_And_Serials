@@ -9,11 +9,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.filmsandserials.R
 import com.example.filmsandserials.data.Film
 import com.example.filmsandserials.databinding.TopFragmentBinding
 import com.example.filmsandserials.interfaces.TopFragmentClickListener
 import com.example.filmsandserials.model.services.RatingServiceApiImpl
+import com.example.filmsandserials.recyclers.FilmsAndSerialsAdapter
 import com.example.filmsandserials.viewmodels.ContentViewModel
 import com.google.gson.Gson
 import kotlinx.coroutines.*
@@ -37,10 +41,6 @@ class TopFragment:Fragment() {
         initViews(typeData)
         initViewModel(typeData)
 
-        contentViewModel.getContent().observe(viewLifecycleOwner, {
-            films -> Log.v("AppVerb", films.toString())
-        })
-
         return view
     }
 
@@ -56,6 +56,12 @@ class TopFragment:Fragment() {
                 "Rating_FILM" -> topTitle.text = context?.getString(R.string.top_20_rating_film)
                 "Rating_SERIAL" -> topTitle.text = context?.getString(R.string.top_20_rating_serial)
             }
+            contentViewModel.getContent().observe(viewLifecycleOwner, {
+                    films ->
+                        val adapter = FilmsAndSerialsAdapter(films, null)
+                topRecycler.adapter = adapter
+                topRecycler.layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
+            })
         }
     }
 

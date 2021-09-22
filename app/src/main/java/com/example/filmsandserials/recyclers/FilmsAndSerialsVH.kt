@@ -18,9 +18,9 @@ class FilmsAndSerialsVH(
             downloadMainPhoto(element.poster_path)
             titleVh.text = element.title
             if (element.isFavorite) {
-                likeVh.setBackgroundColor(R.color.like_active)
+                likeVh.setImageResource(R.drawable.ic_like)
             } else {
-                likeVh.setBackgroundColor(R.color.grey)
+                likeVh.setImageResource(R.drawable.ic_baseline_favorite_24)
             }
         }
     }
@@ -28,8 +28,9 @@ class FilmsAndSerialsVH(
     private fun downloadMainPhoto(url: String) {
         with(binding) {
             Glide.with(view)
-                .load(url)
+                .load("https://image.tmdb.org/t/p/w500$url")
                 .into(mainPhotoVh)
+
         }
     }
 }
