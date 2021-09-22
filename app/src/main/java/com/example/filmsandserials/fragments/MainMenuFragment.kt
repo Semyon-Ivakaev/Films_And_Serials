@@ -27,10 +27,6 @@ class MainMenuFragment: Fragment() {
         return view
     }
 
-    private fun initFilmsView() {
-
-    }
-
     private fun initViews(fragmentTag: String?) {
         val ratingTag = "Rating_$fragmentTag"
         val popularTag = "Popular_$fragmentTag"
