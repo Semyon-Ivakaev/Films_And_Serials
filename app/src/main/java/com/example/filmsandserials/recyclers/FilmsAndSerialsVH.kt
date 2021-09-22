@@ -30,7 +30,6 @@ class FilmsAndSerialsVH(
             Glide.with(view)
                 .load("https://image.tmdb.org/t/p/w500$url")
                 .into(mainPhotoVh)
-
         }
     }
 }

@@ -22,4 +22,11 @@ class ContentViewModel: ViewModel() {
     fun getContent(): LiveData<List<Film>> {
         return contentViewModel
     }
+
+    fun refreshContent(type: String, top_type: String, lang: String) {
+        contentViewModel.value = listOf()
+        CoroutineScope(Dispatchers.IO + Job()).launch {
+            contentViewModel.postValue(RatingServiceApiImpl.getTopService(type, top_type, lang))
+        }
+    }
 }
