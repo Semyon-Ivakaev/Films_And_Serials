@@ -58,7 +58,7 @@ class TopFragment:Fragment() {
             }
             contentViewModel.getContent().observe(viewLifecycleOwner, {
                     films ->
-                        val adapter = FilmsAndSerialsAdapter(films, null)
+                val adapter = FilmsAndSerialsAdapter(films, null)
                 topRecycler.adapter = adapter
                 topRecycler.layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
             })
@@ -68,10 +68,31 @@ class TopFragment:Fragment() {
     private fun initViewModel(typeData: String?) {
         CoroutineScope(Dispatchers.IO + Job()).launch {
             when (typeData) {
-                "Rating_FILM" -> contentViewModel.loadContent("movie", "top_rated", "ru-RU")
-                "Popular_FILM" -> contentViewModel.loadContent("movie", "popular", "ru-RU")
-                "Rating_SERIAL" -> contentViewModel.loadContent("tv", "top_rated", "ru-RU")
-                "Popular_SERIAL" -> contentViewModel.loadContent("tv", "popular", "ru-RU")
+                "Rating_FILM" -> {
+                    contentViewModel.loadContent("movie", "top_rated", "ru-RU")
+                    pullToRefresh("movie", "top_rated", "ru-RU")
+                }
+                "Popular_FILM" -> {
+                    contentViewModel.loadContent("movie", "popular", "ru-RU")
+                    pullToRefresh("movie", "popular", "ru-RU")
+                }
+                "Rating_SERIAL" -> {
+                    contentViewModel.loadContent("tv", "top_rated", "ru-RU")
+                    pullToRefresh("tv", "top_rated", "ru-RU")
+                }
+                "Popular_SERIAL" -> {
+                    contentViewModel.loadContent("tv", "popular", "ru-RU")
+                    pullToRefresh("tv", "popular", "ru-RU")
+                }
+            }
+        }
+    }
+
+    private fun pullToRefresh(type: String, top_type: String, lang: String) {
+        with(binding) {
+            swipeRefresh.setOnRefreshListener {
+                contentViewModel.refreshContent(type, top_type, lang)
+                swipeRefresh.isRefreshing = false
             }
         }
     }
