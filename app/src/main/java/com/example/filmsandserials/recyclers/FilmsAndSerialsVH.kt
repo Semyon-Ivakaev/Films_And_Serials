@@ -22,6 +22,9 @@ class FilmsAndSerialsVH(
             } else {
                 likeVh.setImageResource(R.drawable.ic_baseline_favorite_24)
             }
+            mainCardView.setOnClickListener {
+                clickListener?.onOneViewClicked(element)
+            }
         }
     }
 
