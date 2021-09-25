@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmsandserials.R
+import com.example.filmsandserials.data.Film
 import com.example.filmsandserials.databinding.TopFragmentBinding
 import com.example.filmsandserials.interfaces.TopFragmentClickListener
 import com.example.filmsandserials.recyclers.FilmsAndSerialsAdapter
@@ -53,7 +54,16 @@ class TopFragment:Fragment() {
             }
             contentViewModel.getContent().observe(viewLifecycleOwner, {
                     films ->
-                val adapter = FilmsAndSerialsAdapter(films, null)
+                val adapter = FilmsAndSerialsAdapter(films, object : TopFragmentClickListener {
+                    override fun onBackButtonClicked() {
+                        // Этот метод не используется, не стал создавать пока листенер для нажатия отдельный
+                        return
+                    }
+
+                    override fun onOneViewClicked(film: Film) {
+                        topFragmentClickListener?.onOneViewClicked(film)
+                    }
+                }) //FilmsAndSerialsAdapter(films, null)
                 topRecycler.adapter = adapter
                 topRecycler.layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
             })
