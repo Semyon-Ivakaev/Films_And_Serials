@@ -3,7 +3,7 @@ package com.example.filmsandserials
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
+import com.example.filmsandserials.data.Film
 import com.example.filmsandserials.fragments.MainMenuFragment
 import com.example.filmsandserials.fragments.SearchFragment
 import com.example.filmsandserials.fragments.StartFragment
@@ -43,6 +43,10 @@ class MainActivity : AppCompatActivity(), StartFragmentInterface, MainMenuFragme
         } else {
             supportFragmentManager.popBackStack()
         }
+    }
+
+    override fun onOneViewClicked(film: Film) {
+        Log.v("AppVerbose", "onOneViewClicked")
     }
 
     override fun onTopTypeButtonClicked(buttonTag: String) {
