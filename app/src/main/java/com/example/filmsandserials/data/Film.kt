@@ -15,5 +15,5 @@ data class Film(
     val backdrop_path: String,
     val popularity: Double,
     val vote_average: Double,
-    var isFavorite: Boolean = true
+    var isFavorite: Boolean = false
 ): Serializable
