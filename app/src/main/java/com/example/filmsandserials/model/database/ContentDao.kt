@@ -10,11 +10,11 @@ import com.example.filmsandserials.data.Film
 interface ContentDao {
 
     @Insert
-    fun insertContent(film: Film)
+    suspend fun insertContent(film: Film)
 
     @Delete
-    fun deleteContent(film: Film)
+    suspend fun deleteContent(film: Film)
 
     @Query("SELECT * FROM Content")
-    fun getAllContent(): List<Film>
+    suspend fun getAllContent(): List<Film>
 }
