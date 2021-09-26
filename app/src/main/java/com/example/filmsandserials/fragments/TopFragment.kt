@@ -51,6 +51,7 @@ class TopFragment:Fragment() {
                 "Popular_SERIAL" -> topTitle.text = context?.getString(R.string.top_20_popular_serials)
                 "Rating_FILM" -> topTitle.text = context?.getString(R.string.top_20_rating_film)
                 "Rating_SERIAL" -> topTitle.text = context?.getString(R.string.top_20_rating_serial)
+                "DB" -> topTitle.text = "Мои любимые"
             }
             contentViewModel.getContent().observe(viewLifecycleOwner, {
                     films ->

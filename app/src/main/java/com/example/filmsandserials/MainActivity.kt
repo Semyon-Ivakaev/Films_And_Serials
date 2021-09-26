@@ -62,4 +62,12 @@ class MainActivity : AppCompatActivity(), StartFragmentInterface, MainMenuFragme
             .addToBackStack(null)
             .commit()
     }
+
+    override fun onFavoriteButtonClicked(type: String) {
+        Log.v("AppVerbose", "onFavoriteButtonClicked")
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_container, TopFragment.newInstance(type))
+            .addToBackStack(null)
+            .commit()
+    }
 }
