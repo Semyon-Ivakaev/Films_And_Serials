@@ -38,9 +38,11 @@ class MainMenuFragment: Fragment() {
             if (fragmentTag == "FILM") {
                 titleRating.text = (context?.getString(R.string.top_20_rating_film))
                 titlePopular.text = (context?.getString(R.string.top_20_popular_film))
+                titleFavorite.text = (context?.getString(R.string.favorite_film))
             } else {
                 titleRating.text = (context?.getString(R.string.top_20_rating_serial))
                 titlePopular.text = (context?.getString(R.string.top_20_popular_serials))
+                titleFavorite.text = (context?.getString(R.string.favorite_serial))
             }
             popularCardView.setOnClickListener {
                 mainMenuFragmentInterface?.onTopTypeButtonClicked(popularTag)
@@ -50,6 +52,9 @@ class MainMenuFragment: Fragment() {
             }
             searchCardView.setOnClickListener {
                 mainMenuFragmentInterface?.onSearchButtonClicked()
+            }
+            favoriteCardView.setOnClickListener {
+                mainMenuFragmentInterface?.onFavoriteButtonClicked("DB")
             }
         }
     }

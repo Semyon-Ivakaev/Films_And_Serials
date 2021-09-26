@@ -6,4 +6,6 @@ interface MainMenuFragmentInterface {
     fun onTopTypeButtonClicked(buttonTag: String)
 
     fun onSearchButtonClicked()
+
+    fun onFavoriteButtonClicked(type: String)
 }
