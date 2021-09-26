@@ -1,8 +1,12 @@
 package com.example.filmsandserials.data
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.io.Serializable
 
+@Entity(tableName = "Content")
 data class Film(
+    @PrimaryKey
     val id: Int,
     val title: String,
     val original_title: String,
