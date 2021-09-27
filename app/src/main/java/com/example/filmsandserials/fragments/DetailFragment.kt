@@ -25,6 +25,8 @@ class DetailFragment: Fragment() {
     lateinit var view: ConstraintLayout
     private var detailFragmentClickListener: DetailFragmentClickListener? = null
 
+    private var db: AppDatabase? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,6 +34,7 @@ class DetailFragment: Fragment() {
     ): View? {
         binding = DetailFragmentBinding.inflate(layoutInflater, container, false)
         view = binding.root
+        db = AppDatabase.getDatabase(requireContext())
 
         val content = arguments?.getSerializable("element") as Film
         initViews(content)
@@ -40,6 +43,7 @@ class DetailFragment: Fragment() {
     }
 
     private fun initViews(content: Film) {
+        var liked = false
         with(binding) {
             backButton.setOnClickListener {
                 detailFragmentClickListener?.onBackButtonClicked()
@@ -48,22 +52,40 @@ class DetailFragment: Fragment() {
             originalName.text = content.original_title
             overview.text = content.overview
             downloadPoster(content.backdrop_path)
-
             viewLifecycleOwner.lifecycleScope.launch {
-                drawLiked(checkFavorite(content))
+                liked = checkFavorite(content) == true
+                drawLiked(liked)
+            }
+            likeContent.setOnClickListener {
+                actionWithFavorite(liked, content)
             }
         }
     }
 
-    private suspend fun checkFavorite(element: Film): Boolean{
-        return withContext(Dispatchers.IO) {
-            AppDatabase.getDatabase(requireContext()).getContentDao().elementIsFavorite(element.original_title)
+    private fun actionWithFavorite(liked: Boolean, element: Film) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            if (!liked) {
+                drawLiked(true)
+                element.isFavorite = true
+                db?.getContentDao()?.insertContent(element)
+            } else {
+                drawLiked(false)
+                element.isFavorite = false
+                db?.getContentDao()?.deleteContent(element)
+            }
+            Log.v("AppVerb", "DB: ${ db?.getContentDao()?.getAllContent().toString() }")
         }
     }
 
-    private fun drawLiked(like: Boolean) {
+    private suspend fun checkFavorite(element: Film): Boolean? {
+        return withContext(Dispatchers.IO) {
+            db?.getContentDao()?.elementIsFavorite(element.original_title)
+        }
+    }
+
+    private fun drawLiked(like: Boolean?) {
         with(binding) {
-            if (like) {
+            if (like == true) {
                 likeContent.setImageResource(R.drawable.ic_like)
             } else {
                 likeContent.setImageResource(R.drawable.ic_baseline_favorite_24)

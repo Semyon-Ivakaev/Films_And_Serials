@@ -15,7 +15,6 @@ class FilmsAndSerialsAdapter(
     RecyclerView.Adapter<FilmsAndSerialsVH>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmsAndSerialsVH {
-        Log.v("AppVer", db.toString())
         return FilmsAndSerialsVH(LayoutInflater.from(parent.context)
             .inflate(R.layout.films_and_serials_vh, parent, false), clickListener, db)
     }
