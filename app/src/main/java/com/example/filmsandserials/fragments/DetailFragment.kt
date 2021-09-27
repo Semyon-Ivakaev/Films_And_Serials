@@ -2,15 +2,23 @@ package com.example.filmsandserials.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.example.filmsandserials.R
 import com.example.filmsandserials.data.Film
 import com.example.filmsandserials.databinding.DetailFragmentBinding
 import com.example.filmsandserials.interfaces.DetailFragmentClickListener
+import com.example.filmsandserials.model.database.AppDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DetailFragment: Fragment() {
     lateinit var binding: DetailFragmentBinding
@@ -40,6 +48,26 @@ class DetailFragment: Fragment() {
             originalName.text = content.original_title
             overview.text = content.overview
             downloadPoster(content.backdrop_path)
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                drawLiked(checkFavorite(content))
+            }
+        }
+    }
+
+    private suspend fun checkFavorite(element: Film): Boolean{
+        return withContext(Dispatchers.IO) {
+            AppDatabase.getDatabase(requireContext()).getContentDao().elementIsFavorite(element.original_title)
+        }
+    }
+
+    private fun drawLiked(like: Boolean) {
+        with(binding) {
+            if (like) {
+                likeContent.setImageResource(R.drawable.ic_like)
+            } else {
+                likeContent.setImageResource(R.drawable.ic_baseline_favorite_24)
+            }
         }
     }
 

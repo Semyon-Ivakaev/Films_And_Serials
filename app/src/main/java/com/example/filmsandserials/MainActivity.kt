@@ -3,13 +3,21 @@ package com.example.filmsandserials
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import androidx.room.Room
 import com.example.filmsandserials.data.Film
 import com.example.filmsandserials.fragments.*
 import com.example.filmsandserials.interfaces.*
+import com.example.filmsandserials.model.database.AppDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity(), StartFragmentInterface, MainMenuFragmentInterface,
     SearchFragmentInterface, TopFragmentClickListener, DetailFragmentClickListener {
+//    private var db: AppDatabase? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -19,6 +27,10 @@ class MainActivity : AppCompatActivity(), StartFragmentInterface, MainMenuFragme
                 .add(R.id.main_container, StartFragment())
                 .commit()
         }
+
+        /*if (db == null) {
+            db = Room.databaseBuilder(this, AppDatabase::class.java, "ContentBD").build()
+        }*/
     }
 
     override fun onTypeContentButtonClicked(typeContent: String) {

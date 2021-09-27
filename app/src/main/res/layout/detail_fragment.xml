@@ -81,6 +81,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
+            <ImageView
+                android:id="@+id/like_content"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="50dp"
+                tools:src="@drawable/ic_like"/>
+
             <TextView
                 android:id="@+id/originalName"
                 android:layout_width="wrap_content"

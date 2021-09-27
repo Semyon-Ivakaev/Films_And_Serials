@@ -34,9 +34,9 @@ class TopFragment:Fragment() {
 
         binding = TopFragmentBinding.inflate(layoutInflater, container, false)
         val view = binding.root
-        CoroutineScope(Dispatchers.IO).launch {
+        /*CoroutineScope(Dispatchers.IO).launch {
             db = Room.databaseBuilder(requireContext(), AppDatabase::class.java, "ContentBD").build()
-        }
+        }*/
 
 
         val typeData = arguments?.getString("TAG")
