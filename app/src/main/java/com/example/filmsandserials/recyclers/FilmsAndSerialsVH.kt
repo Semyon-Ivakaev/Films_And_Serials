@@ -24,14 +24,8 @@ class FilmsAndSerialsVH(
         with(binding) {
             downloadMainPhoto(element.poster_path)
             titleVh.text = element.title
-            drawLikeImage(element.isFavorite)
             mainCardView.setOnClickListener {
                 clickListener?.onOneViewClicked(element)
-            }
-
-            likeVh.setOnClickListener {
-                someActionWithFavorite(element)
-                drawLikeImage(element.isFavorite)
             }
         }
     }
@@ -63,7 +57,7 @@ class FilmsAndSerialsVH(
         }
     }
 
-    private fun drawLikeImage(like: Boolean) {
+    /*private fun drawLikeImage(like: Boolean) {
         Log.v("APP", "DRAW")
         with(binding) {
             if (like) {
@@ -72,5 +66,5 @@ class FilmsAndSerialsVH(
                 likeVh.setImageResource(R.drawable.ic_baseline_favorite_24)
             }
         }
-    }
+    }*/
 }

@@ -17,4 +17,7 @@ interface ContentDao {
 
     @Query("SELECT * FROM Content")
     suspend fun getAllContent(): List<Film>
+
+    @Query("SELECT EXISTS (SELECT 1 FROM Content WHERE original_title = :originalTitle)")
+    suspend fun elementIsFavorite(originalTitle: String): Boolean
 }
