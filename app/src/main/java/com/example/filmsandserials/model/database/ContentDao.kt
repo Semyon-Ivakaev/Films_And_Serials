@@ -1,5 +1,6 @@
 package com.example.filmsandserials.model.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -20,4 +21,7 @@ interface ContentDao {
 
     @Query("SELECT EXISTS (SELECT 1 FROM Content WHERE original_title = :originalTitle)")
     suspend fun elementIsFavorite(originalTitle: String): Boolean
+
+    @Query("SELECT * FROM Content WHERE original_title = 'The Godfather'")
+    fun getAllContentFromDb(): LiveData<List<Film>>
 }

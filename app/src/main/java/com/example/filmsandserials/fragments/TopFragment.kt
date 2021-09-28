@@ -24,6 +24,7 @@ class TopFragment:Fragment() {
     lateinit var binding: TopFragmentBinding
     private var topFragmentClickListener: TopFragmentClickListener? = null
     private val contentViewModel: ContentViewModel by viewModels()
+    private val dbViewModel: ContentViewModel by viewModels()
     private var db: AppDatabase? = null
 
     override fun onCreateView(
@@ -34,6 +35,7 @@ class TopFragment:Fragment() {
 
         binding = TopFragmentBinding.inflate(layoutInflater, container, false)
         val view = binding.root
+        db = AppDatabase.getDatabase(requireContext())
         /*CoroutineScope(Dispatchers.IO).launch {
             db = Room.databaseBuilder(requireContext(), AppDatabase::class.java, "ContentBD").build()
         }*/
@@ -62,8 +64,19 @@ class TopFragment:Fragment() {
                     topTitle.text = "Мои любимые"
                 }
             }
+
+            // TODO: Эта штука не работает, надо копать
+            dbViewModel.getContentFromDB()?.observe(viewLifecycleOwner, {
+                    films ->
+                CoroutineScope(Dispatchers.IO).launch {
+                    Log.v("App", "CREATE ADAPTER ${db?.getContentDao()?.getAllContentFromDb()}")
+                }})
+
             contentViewModel.getContent().observe(viewLifecycleOwner, {
                     films ->
+                CoroutineScope(Dispatchers.IO).launch {
+                    Log.v("App", "CREATE ADAPTER ${db?.getContentDao()?.getAllContentFromDb()}")
+                }
                 val adapter = FilmsAndSerialsAdapter(films, object : TopFragmentClickListener {
                     override fun onBackButtonClicked() {
                         // Этот метод не используется, не стал создавать пока листенер для нажатия отдельный
@@ -81,6 +94,7 @@ class TopFragment:Fragment() {
     }
 
     private fun initViewModel(typeData: String?) {
+        Log.v("App", "TTT : $typeData")
         CoroutineScope(Dispatchers.IO + Job()).launch {
             when (typeData) {
                 "Rating_FILM" -> {
@@ -98,6 +112,9 @@ class TopFragment:Fragment() {
                 "Popular_SERIAL" -> {
                     contentViewModel.loadContent("tv", "popular", "ru-RU")
                     pullToRefresh("tv", "popular", "ru-RU")
+                }
+                "DB" -> {
+                    contentViewModel.loadContentFromDB(db)
                 }
             }
         }

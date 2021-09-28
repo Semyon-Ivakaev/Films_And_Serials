@@ -1,5 +1,6 @@
 package com.example.filmsandserials.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,6 +16,7 @@ import kotlinx.coroutines.launch
 
 class ContentViewModel: ViewModel() {
     private val contentViewModel: MutableLiveData<List<Film>> = MutableLiveData()
+    private var dbViewModel: LiveData<List<Film>>? = null
 
     fun loadContent(type: String, top_type: String, lang: String) {
         CoroutineScope(Dispatchers.IO + Job()).launch {
@@ -33,9 +35,14 @@ class ContentViewModel: ViewModel() {
         }
     }
 
-    fun loadContentFromDB(db: AppDatabase) {
-        viewModelScope.launch {
+    fun loadContentFromDB(db: AppDatabase?) {
+//        contentViewModel.value = listOf()
+        Log.v("App", "loadContentFromDB")
+        dbViewModel = db?.getContentDao()?.getAllContentFromDb()
+        Log.v("APP", dbViewModel?.value.toString())
+    }
 
-        }
+    fun getContentFromDB(): LiveData<List<Film>>? {
+        return dbViewModel
     }
 }
