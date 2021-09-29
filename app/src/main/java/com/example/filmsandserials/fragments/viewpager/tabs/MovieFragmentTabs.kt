@@ -1,5 +1,6 @@
 package com.example.filmsandserials.fragments.viewpager.tabs
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.filmsandserials.data.Film
 import com.example.filmsandserials.databinding.MovieFragmentTabBinding
 import com.example.filmsandserials.databinding.SerialFragmentTabBinding
+import com.example.filmsandserials.interfaces.TopFragmentClickListener
 import com.example.filmsandserials.recyclers.FilmsAndSerialsAdapter
 import com.example.filmsandserials.viewmodels.SearchViewModel
 import com.example.filmsandserials.viewmodels.SharedViewModel
@@ -20,6 +22,8 @@ import com.example.filmsandserials.viewmodels.SharedViewModel
 class MovieFragmentTabs(var searchViewModel: SearchViewModel?): Fragment() {
     lateinit var binding: MovieFragmentTabBinding
     private val model: SharedViewModel by activityViewModels()
+
+    private var topFragmentClickListener: TopFragmentClickListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,9 +55,30 @@ class MovieFragmentTabs(var searchViewModel: SearchViewModel?): Fragment() {
     private fun initRecyclerAdapter(request: List<Film>) {
         with(binding) {
             searchRecycler.adapter = null
-            val adapter = FilmsAndSerialsAdapter(request, null, null)
+            val adapter = FilmsAndSerialsAdapter(request, object : TopFragmentClickListener {
+                override fun onBackButtonClicked() {
+                    // Этот метод не используется, не стал создавать пока листенер для нажатия отдельный
+                    return
+                }
+
+                override fun onOneViewClicked(film: Film) {
+                    topFragmentClickListener?.onOneViewClicked(film)
+                }
+            }, null)
             searchRecycler.adapter = adapter
             searchRecycler.layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is TopFragmentClickListener) {
+            topFragmentClickListener = context
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        topFragmentClickListener = null
     }
 }
