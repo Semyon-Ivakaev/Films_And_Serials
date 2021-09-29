@@ -15,8 +15,7 @@ import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity(), StartFragmentInterface, MainMenuFragmentInterface,
-    SearchFragmentInterface, TopFragmentClickListener, DetailFragmentClickListener,
-    OnOneElementClickListener {
+    SearchFragmentInterface, TopFragmentClickListener, DetailFragmentClickListener {
 //    private var db: AppDatabase? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

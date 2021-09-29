@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -41,7 +42,6 @@ class MovieFragmentTabs(var searchViewModel: SearchViewModel?): Fragment() {
         model.selected.observe(viewLifecycleOwner, {
             searchViewModel?.refreshMovie(model.selected.value)
             lookViewModel()
-
         })
         lookViewModel()
     }
@@ -55,6 +55,7 @@ class MovieFragmentTabs(var searchViewModel: SearchViewModel?): Fragment() {
     private fun initRecyclerAdapter(request: List<Film>) {
         with(binding) {
             searchRecycler.adapter = null
+            progressBar.isVisible = true
             val adapter = FilmsAndSerialsAdapter(request, object : TopFragmentClickListener {
                 override fun onBackButtonClicked() {
                     // Этот метод не используется, не стал создавать пока листенер для нажатия отдельный
@@ -67,6 +68,7 @@ class MovieFragmentTabs(var searchViewModel: SearchViewModel?): Fragment() {
             }, null)
             searchRecycler.adapter = adapter
             searchRecycler.layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
+            progressBar.isVisible = false
         }
     }
 
