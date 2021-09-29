@@ -17,7 +17,7 @@ data class SerialResponseResult(
     @SerializedName("overview")
     val overview: String,
     @SerializedName("poster_path")
-    val poster_path: String,
+    val poster_path: String?,
     @SerializedName("backdrop_path")
     val backdrop_path: String?,
     @SerializedName("popularity")

@@ -49,8 +49,8 @@ class SearchFragment:Fragment() {
 //                    val request = searchFragmentPresenter.translateRequest(query)
                     // Храним список, [0]-ru для вывода в snackBar, [1]-en значение в API
                     // пока не используется
-                    val translateStrings = listOf(query, query)
-                    model.select(translateStrings)
+
+                    model.select(query)
                     // Сворачиваем клавиатуру при сабмите поиска
                     val hideKeyboard = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
                     hideKeyboard?.hideSoftInputFromWindow(view?.windowToken, 0)
