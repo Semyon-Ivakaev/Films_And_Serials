@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +19,7 @@ import com.example.filmsandserials.viewmodels.SharedViewModel
 
 class MovieFragmentTabs(var searchViewModel: SearchViewModel?): Fragment() {
     lateinit var binding: MovieFragmentTabBinding
-    private val model: SharedViewModel by viewModels()
+    private val model: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,9 +35,14 @@ class MovieFragmentTabs(var searchViewModel: SearchViewModel?): Fragment() {
 
     private fun initViewModel() {
         model.selected.observe(viewLifecycleOwner, {
-//            initRecyclerAdapter(model.selected.value)
-            Log.v("APP", "initViewModel model.selected.observe")
+            searchViewModel?.refreshMovie(model.selected.value)
+            lookViewModel()
+
         })
+        lookViewModel()
+    }
+
+    private fun lookViewModel() {
         searchViewModel?.getMovieList()?.observe(viewLifecycleOwner, { films ->
             initRecyclerAdapter(films)
         })
@@ -44,6 +50,7 @@ class MovieFragmentTabs(var searchViewModel: SearchViewModel?): Fragment() {
 
     private fun initRecyclerAdapter(request: List<Film>) {
         with(binding) {
+            searchRecycler.adapter = null
             val adapter = FilmsAndSerialsAdapter(request, null, null)
             searchRecycler.adapter = adapter
             searchRecycler.layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)

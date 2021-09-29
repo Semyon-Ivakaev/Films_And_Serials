@@ -19,7 +19,7 @@ import com.example.filmsandserials.viewmodels.SharedViewModel
 
 class SerialFragmentTabs(var searchViewModel: SearchViewModel?): Fragment() {
     lateinit var binding: SerialFragmentTabBinding
-    private val model: SharedViewModel by viewModels()
+    private val model: SharedViewModel by activityViewModels()
 
     private var progressBar: LottieAnimationView? = null
 
@@ -37,17 +37,22 @@ class SerialFragmentTabs(var searchViewModel: SearchViewModel?): Fragment() {
 
     private fun initViewModel() {
         model.selected.observe(viewLifecycleOwner, {
-//            initRecyclerAdapter(model.selected.value)
-            Log.v("APP", "initViewModel model.selected.observe")
+            searchViewModel?.refreshSerial(model.selected.value)
+            lookViewModel()
+
         })
+        lookViewModel()
+    }
+
+    private fun lookViewModel() {
         searchViewModel?.getSerialList()?.observe(viewLifecycleOwner, { films ->
-            Log.v("APP", "initViewModel searchViewModel?.getMovieList()?.observe")
             initRecyclerAdapter(films)
         })
     }
 
     private fun initRecyclerAdapter(request: List<Film>) {
         with(binding) {
+            searchRecycler.adapter = null
             val adapter = FilmsAndSerialsAdapter(request, null, null)
             searchRecycler.adapter = adapter
             searchRecycler.layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)

@@ -1,5 +1,6 @@
 package com.example.filmsandserials.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -32,5 +33,20 @@ class SearchViewModel: ViewModel() {
 
     fun getSerialList(): LiveData<List<Film>> {
         return serialList
+    }
+
+    fun refreshMovie(request: String?){
+        movieList = MutableLiveData()
+        Log.v("APP", "refreshMovie")
+        viewModelScope.launch {
+            movieList.postValue(RatingServiceApiImpl.searchMovies(request, "ru-Ru"))
+        }
+    }
+
+    fun refreshSerial(request: String?) {
+        serialList = MutableLiveData()
+        viewModelScope.launch {
+            serialList.postValue(RatingServiceApiImpl.searchSerials(request, "ru-Ru"))
+        }
     }
 }
