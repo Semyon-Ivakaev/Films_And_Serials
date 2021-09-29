@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -49,6 +50,7 @@ class TopFragment:Fragment() {
 
     private fun initViews(typeData: String?) {
         with(binding) {
+            progressBar.isVisible = true
             backButton.setOnClickListener {
                 Log.v("AppVerbose", "Click on Back")
                 topFragmentClickListener?.onBackButtonClicked()
@@ -64,6 +66,7 @@ class TopFragment:Fragment() {
             }
             contentViewModel.getContent().observe(viewLifecycleOwner, {
                     films ->
+                progressBar.isVisible = true
                 val adapter = FilmsAndSerialsAdapter(films, object : TopFragmentClickListener {
                     override fun onBackButtonClicked() {
                         // Этот метод не используется, не стал создавать пока листенер для нажатия отдельный
@@ -76,6 +79,7 @@ class TopFragment:Fragment() {
                 }, db)
                 topRecycler.adapter = adapter
                 topRecycler.layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
+                progressBar.isVisible = false
             })
         }
     }
@@ -106,9 +110,17 @@ class TopFragment:Fragment() {
     private fun pullToRefresh(type: String, top_type: String, lang: String) {
         with(binding) {
             swipeRefresh.setOnRefreshListener {
+                progressBar.isVisible = true
                 contentViewModel.refreshContent(type, top_type, lang)
                 swipeRefresh.isRefreshing = false
             }
+        }
+    }
+
+    private fun setProgressBar(loader: Boolean) {
+        Log.v("AppVerbose", "setProgressBar")
+        with(binding) {
+            progressBar.isVisible = loader
         }
     }
 

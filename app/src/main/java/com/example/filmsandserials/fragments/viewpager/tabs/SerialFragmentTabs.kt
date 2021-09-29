@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -33,6 +34,9 @@ class SerialFragmentTabs(var searchViewModel: SearchViewModel?): Fragment() {
     ): View? {
         binding = SerialFragmentTabBinding.inflate(layoutInflater, container, false)
         val view = binding.root
+        with(binding) {
+            progressBar.isVisible = true
+        }
         initViewModel()
 
         return view
@@ -55,6 +59,7 @@ class SerialFragmentTabs(var searchViewModel: SearchViewModel?): Fragment() {
 
     private fun initRecyclerAdapter(request: List<Film>) {
         with(binding) {
+            progressBar.isVisible = true
             searchRecycler.adapter = null
             val adapter = FilmsAndSerialsAdapter(request, object : TopFragmentClickListener {
                 override fun onBackButtonClicked() {
@@ -67,6 +72,7 @@ class SerialFragmentTabs(var searchViewModel: SearchViewModel?): Fragment() {
             }, null)
             searchRecycler.adapter = adapter
             searchRecycler.layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
+            progressBar.isVisible = false
         }
     }
 
