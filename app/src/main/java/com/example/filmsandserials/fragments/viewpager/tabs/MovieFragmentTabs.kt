@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmsandserials.data.Film
@@ -39,23 +40,45 @@ class MovieFragmentTabs(var searchViewModel: SearchViewModel?): Fragment() {
     }
 
     private fun initViewModel() {
+        var request: String? = null
         model.selected.observe(viewLifecycleOwner, {
-            searchViewModel?.refreshMovie(model.selected.value)
+            clearAdapter()
+            setProgressBar(true)
+            request = model.selected.value
+            searchViewModel?.refreshMovie(request)
             lookViewModel()
         })
+        pullToRefresh(request)
         lookViewModel()
     }
 
     private fun lookViewModel() {
         searchViewModel?.getMovieList()?.observe(viewLifecycleOwner, { films ->
+            setProgressBar(false)
             initRecyclerAdapter(films)
         })
     }
 
+    private fun pullToRefresh(request: String?) {
+        var ask = request
+        if (request == null) {
+            ask = "Пираты"
+        }
+        with(binding) {
+            swipeRefresh.setOnRefreshListener {
+                setProgressBar(true)
+                Log.v("AppVerbose", request.toString())
+                clearAdapter()
+                searchViewModel?.refreshMovie(ask)
+                swipeRefresh.isRefreshing = false
+                lookViewModel()
+            }
+        }
+    }
+
     private fun initRecyclerAdapter(request: List<Film>) {
         with(binding) {
-            searchRecycler.adapter = null
-            progressBar.isVisible = true
+            setProgressBar(true)
             val adapter = FilmsAndSerialsAdapter(request, object : TopFragmentClickListener {
                 override fun onBackButtonClicked() {
                     // Этот метод не используется, не стал создавать пока листенер для нажатия отдельный
@@ -68,7 +91,20 @@ class MovieFragmentTabs(var searchViewModel: SearchViewModel?): Fragment() {
             }, null)
             searchRecycler.adapter = adapter
             searchRecycler.layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
-            progressBar.isVisible = false
+            Log.v("AppVerbose", "Adapter is create")
+            setProgressBar(false)
+        }
+    }
+
+    private fun setProgressBar(loader: Boolean) {
+        with(binding) {
+            progressBar.isVisible = loader
+        }
+    }
+
+    private fun clearAdapter() {
+        with(binding) {
+            searchRecycler.adapter = null
         }
     }
 

@@ -22,7 +22,7 @@ class SearchViewModel: ViewModel() {
                 movieList.postValue(RatingServiceApiImpl.searchMovies("Пираты", "ru-Ru"))
             }
             if (serialList.value == null) {
-                serialList.postValue(RatingServiceApiImpl.searchSerials("Теория", "ru-Ru"))
+                serialList.postValue(RatingServiceApiImpl.searchSerials("улицы", "ru-Ru"))
             }
         }
     }
@@ -37,7 +37,7 @@ class SearchViewModel: ViewModel() {
 
     fun refreshMovie(request: String?){
         movieList = MutableLiveData()
-        Log.v("APP", "refreshMovie")
+        Log.v("APP", "refreshMovie : $request")
         viewModelScope.launch {
             movieList.postValue(RatingServiceApiImpl.searchMovies(request, "ru-Ru"))
         }
