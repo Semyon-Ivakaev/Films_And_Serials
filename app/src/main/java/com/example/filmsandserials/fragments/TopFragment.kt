@@ -50,7 +50,7 @@ class TopFragment:Fragment() {
 
     private fun initViews(typeData: String?) {
         with(binding) {
-            progressBar.isVisible = true
+            setProgressBar(true)
             backButton.setOnClickListener {
                 Log.v("AppVerbose", "Click on Back")
                 topFragmentClickListener?.onBackButtonClicked()
@@ -66,7 +66,7 @@ class TopFragment:Fragment() {
             }
             contentViewModel.getContent().observe(viewLifecycleOwner, {
                     films ->
-                progressBar.isVisible = true
+                setProgressBar(true)
                 val adapter = FilmsAndSerialsAdapter(films, object : TopFragmentClickListener {
                     override fun onBackButtonClicked() {
                         // Этот метод не используется, не стал создавать пока листенер для нажатия отдельный
@@ -79,7 +79,7 @@ class TopFragment:Fragment() {
                 }, db)
                 topRecycler.adapter = adapter
                 topRecycler.layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
-                progressBar.isVisible = false
+                setProgressBar(false)
             })
         }
     }
@@ -110,7 +110,8 @@ class TopFragment:Fragment() {
     private fun pullToRefresh(type: String, top_type: String, lang: String) {
         with(binding) {
             swipeRefresh.setOnRefreshListener {
-                progressBar.isVisible = true
+                clearAdapter()
+                setProgressBar(true)
                 contentViewModel.refreshContent(type, top_type, lang)
                 swipeRefresh.isRefreshing = false
             }
@@ -118,9 +119,15 @@ class TopFragment:Fragment() {
     }
 
     private fun setProgressBar(loader: Boolean) {
-        Log.v("AppVerbose", "setProgressBar")
+        Log.v("AppVerbose", "setProgressBar : $loader")
         with(binding) {
-            progressBar.isVisible = loader
+            progressBarTop.isVisible = loader
+        }
+    }
+
+    private fun clearAdapter() {
+        with(binding) {
+            topRecycler.adapter = null
         }
     }
 
