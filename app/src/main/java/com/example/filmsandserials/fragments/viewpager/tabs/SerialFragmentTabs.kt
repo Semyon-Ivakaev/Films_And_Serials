@@ -93,8 +93,8 @@ class SerialFragmentTabs(var searchViewModel: SearchViewModel?): Fragment() {
 
     private fun initRecyclerAdapter(request: List<Film>) {
         with(binding) {
-            progressBar.isVisible = true
-            searchRecycler.adapter = null
+            setProgressBar(true)
+            clearAdapter()
             val adapter = FilmsAndSerialsAdapter(request, object : TopFragmentClickListener {
                 override fun onBackButtonClicked() {
                     return
@@ -106,7 +106,7 @@ class SerialFragmentTabs(var searchViewModel: SearchViewModel?): Fragment() {
             }, null)
             searchRecycler.adapter = adapter
             searchRecycler.layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
-            progressBar.isVisible = false
+            setProgressBar(false)
         }
     }
 

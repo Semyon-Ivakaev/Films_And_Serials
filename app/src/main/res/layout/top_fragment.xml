@@ -62,7 +62,7 @@
         app:barrierDirection="bottom"/>
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/progress_bar"
+        android:id="@+id/progress_bar_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:lottie_rawRes="@raw/progress"
