@@ -43,18 +43,52 @@ class SerialFragmentTabs(var searchViewModel: SearchViewModel?): Fragment() {
     }
 
     private fun initViewModel() {
+        var request: String? = null
         model.selected.observe(viewLifecycleOwner, {
-            searchViewModel?.refreshSerial(model.selected.value)
+            clearAdapter()
+            setProgressBar(true)
+            request = model.selected.value
+            searchViewModel?.refreshSerial(request)
             lookViewModel()
-
         })
+        pullToRefresh(request)
         lookViewModel()
     }
 
     private fun lookViewModel() {
         searchViewModel?.getSerialList()?.observe(viewLifecycleOwner, { films ->
+            setProgressBar(false)
             initRecyclerAdapter(films)
         })
+        pullToRefresh(null)
+    }
+
+    private fun pullToRefresh(request: String?) {
+        var ask = request
+        if (request == null) {
+            ask = "улицы"
+        }
+        with(binding) {
+            swipeRefresh.setOnRefreshListener {
+                setProgressBar(true)
+                clearAdapter()
+                searchViewModel?.refreshSerial(ask)
+                swipeRefresh.isRefreshing = false
+                lookViewModel()
+            }
+        }
+    }
+
+    private fun setProgressBar(loader: Boolean) {
+        with(binding) {
+            progressBar.isVisible = loader
+        }
+    }
+
+    private fun clearAdapter() {
+        with(binding) {
+            searchRecycler.adapter = null
+        }
     }
 
     private fun initRecyclerAdapter(request: List<Film>) {
