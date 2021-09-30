@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -51,6 +52,7 @@ class TopFragment:Fragment() {
 
     private fun initViews(typeData: String?) {
         with(binding) {
+            setProgressBar(true)
             backButton.setOnClickListener {
                 Log.v("AppVerbose", "Click on Back")
                 topFragmentClickListener?.onBackButtonClicked()
@@ -64,16 +66,9 @@ class TopFragment:Fragment() {
                     topTitle.text = "Мои любимые"
                 }
             }
-
-            // TODO: Эта штука не работает, надо копать
-            dbViewModel.getContentFromDB()?.observe(viewLifecycleOwner, {
-                    films ->
-                CoroutineScope(Dispatchers.IO).launch {
-                    Log.v("App", "CREATE ADAPTER ${db?.getContentDao()?.getAllContentFromDb()}")
-                }})
-
             contentViewModel.getContent().observe(viewLifecycleOwner, {
                     films ->
+                setProgressBar(true)
                 CoroutineScope(Dispatchers.IO).launch {
                     Log.v("App", "CREATE ADAPTER ${db?.getContentDao()?.getAllContentFromDb()}")
                 }
@@ -89,6 +84,7 @@ class TopFragment:Fragment() {
                 }, db)
                 topRecycler.adapter = adapter
                 topRecycler.layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
+                setProgressBar(false)
             })
         }
     }
@@ -123,9 +119,24 @@ class TopFragment:Fragment() {
     private fun pullToRefresh(type: String, top_type: String, lang: String) {
         with(binding) {
             swipeRefresh.setOnRefreshListener {
+                clearAdapter()
+                setProgressBar(true)
                 contentViewModel.refreshContent(type, top_type, lang)
                 swipeRefresh.isRefreshing = false
             }
+        }
+    }
+
+    private fun setProgressBar(loader: Boolean) {
+        Log.v("AppVerbose", "setProgressBar : $loader")
+        with(binding) {
+            progressBarTop.isVisible = loader
+        }
+    }
+
+    private fun clearAdapter() {
+        with(binding) {
+            topRecycler.adapter = null
         }
     }
 

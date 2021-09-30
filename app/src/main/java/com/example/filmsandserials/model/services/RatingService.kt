@@ -29,6 +29,18 @@ interface RatingService {
         @Path("top_type") topType: String,
         @Query("language") language: String
     ): Call<SerialResponse>
+
+    @GET("3/search/movie?api_key=c30931d27347b1937173c48adc4aa322&page=1&include_adult=false")
+    fun searchMovies(
+        @Query("query") request: String?,
+        @Query("language") language: String
+    ): Call<FilmResponse>
+
+    @GET("3/search/tv?api_key=c30931d27347b1937173c48adc4aa322&page=1&include_adult=false")
+    fun searchSerials(
+        @Query("query") request: String?,
+        @Query("language") language: String
+    ): Call<SerialResponse>
 }
 
 object RatingServiceApiImpl{
@@ -56,8 +68,8 @@ object RatingServiceApiImpl{
                             result.title,
                             result.original_title,
                             result.overview,
-                            result.poster_path,
-                            result.backdrop_path,
+                            result.poster_path ?: "/1nJ6V9ryJhfIho0f4z2nmcQLKIf.jpg",
+                            result.backdrop_path ?: "/1nJ6V9ryJhfIho0f4z2nmcQLKIf.jpg",
                             result.popularity,
                             result.vote_average
                         )
@@ -71,13 +83,51 @@ object RatingServiceApiImpl{
                             result.name,
                             result.original_name,
                             result.overview,
-                            result.poster_path,
-                            result.backdrop_path ?: result.poster_path,
+                            result.poster_path ?: "/1nJ6V9ryJhfIho0f4z2nmcQLKIf.jpg",
+                            result.backdrop_path ?: "/1nJ6V9ryJhfIho0f4z2nmcQLKIf.jpg",
                             result.popularity,
                             result.vote_average
                         )
                     }
             }
+        }
+    }
+
+    suspend fun searchMovies(searchRequest: String?, lang: String): List<Film>? {
+        return withContext(Dispatchers.Default) {
+            ratingResponseApiService.searchMovies(searchRequest, lang).execute()
+                .body()?.results?.map {
+                    result ->
+                    Film(
+                        result.id,
+                        result.title,
+                        result.original_title,
+                        result.overview,
+                        result.poster_path ?: "/1nJ6V9ryJhfIho0f4z2nmcQLKIf.jpg",
+                        result.backdrop_path ?: "/1nJ6V9ryJhfIho0f4z2nmcQLKIf.jpg",
+                        result.popularity,
+                        result.vote_average
+                    )
+                }
+        }
+    }
+
+    suspend fun searchSerials(searchRequest: String?, lang: String): List<Film>? {
+        return withContext(Dispatchers.Default) {
+            ratingResponseApiService.searchSerials(searchRequest, lang).execute()
+                .body()?.results?.map {
+                        result ->
+                    Film(
+                        result.id,
+                        result.name,
+                        result.original_name,
+                        result.overview,
+                        result.poster_path ?: "/1nJ6V9ryJhfIho0f4z2nmcQLKIf.jpg",
+                        result.backdrop_path ?: "/1nJ6V9ryJhfIho0f4z2nmcQLKIf.jpg",
+                        result.popularity,
+                        result.vote_average
+                    )
+                }
         }
     }
 }
