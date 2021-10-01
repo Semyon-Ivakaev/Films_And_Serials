@@ -1,26 +1,20 @@
 package com.example.filmsandserials.fragments.viewpager
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.filmsandserials.fragments.viewpager.tabs.MovieFragmentTabs
 import com.example.filmsandserials.fragments.viewpager.tabs.SerialFragmentTabs
 import com.example.filmsandserials.viewmodels.SearchViewModel
 
-class ViewPagerAdapter(fm: FragmentManager, val searchViewModel: SearchViewModel?): FragmentPagerAdapter(fm) {
-    override fun getCount(): Int = 2
+class ViewPagerAdapter(fa: FragmentActivity, private val searchViewModel: SearchViewModel?): FragmentStateAdapter(fa) {
 
-    override fun getItem(position: Int): Fragment {
+    override fun getItemCount(): Int = 2
+
+    override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> MovieFragmentTabs(searchViewModel)
             else -> SerialFragmentTabs(searchViewModel)
-        }
-    }
-
-    override fun getPageTitle(position: Int): CharSequence? {
-        return when (position) {
-            0 -> "Search Movie"
-            else -> "Search Serial"
         }
     }
 }
