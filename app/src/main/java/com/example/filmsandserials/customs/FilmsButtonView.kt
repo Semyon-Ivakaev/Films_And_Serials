@@ -77,9 +77,9 @@ class FilmsButtonView(context: Context, attrs: AttributeSet): View(context, attr
         }
         if (reverse) {
             canvas?.rotate(180f, width / 2f, 170f)
-            canvas?.drawText("Сериалы", width / 2f + 85, height / 2f - 125, painter)
+            canvas?.drawText(resources.getString(R.string.serials_button), width / 2f + 85, height / 2f - 125, painter)
         } else {
-            canvas?.drawText("Фильмы", width / 2f + 85, height / 2f + 125, painter)
+            canvas?.drawText(resources.getString(R.string.films_button), width / 2f + 85, height / 2f + 125, painter)
         }
 
     }

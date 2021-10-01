@@ -42,7 +42,7 @@ class MainMenuFragment: Fragment() {
             } else {
                 titleRating.text = (context?.getString(R.string.top_20_rating_serial))
                 titlePopular.text = (context?.getString(R.string.top_20_popular_serials))
-                titleFavorite.text = (context?.getString(R.string.favorite_serial))
+                titleFavorite.text = (context?.getString(R.string.favorite_serials))
             }
             popularCardView.setOnClickListener {
                 mainMenuFragmentInterface?.onTopTypeButtonClicked(popularTag)

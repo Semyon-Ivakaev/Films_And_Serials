@@ -69,7 +69,7 @@ class TopFragment:Fragment() {
                 "Rating_FILM" -> topTitle.text = context?.getString(R.string.top_20_rating_film)
                 "Rating_SERIAL" -> topTitle.text = context?.getString(R.string.top_20_rating_serial)
                 "DB" -> {
-                    topTitle.text = "Мои любимые"
+                    topTitle.text = context?.getString(R.string.favorite_title)
                 }
             }
             contentViewModel.getContent().observe(viewLifecycleOwner, {
@@ -99,7 +99,6 @@ class TopFragment:Fragment() {
                     pullToRefresh("tv", "popular", "ru-RU")
                 }
                 "DB" -> {
-                    Log.v("App", "TTT : GO GO GO")
                     pullToRefreshFromDb()
                 }
             }

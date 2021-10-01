@@ -1,9 +1,13 @@
 <resources>
     <string name="app_name">Films And Serials</string>
-    <string name="top_20_popular_film">Top 20 фильмов по популярности</string>
-    <string name="top_20_popular_serials">Top 20 сериалов по популярности</string>
-    <string name="top_20_rating_film">Top 20 фильмов по рейтингу</string>
-    <string name="top_20_rating_serial">Top 20 сериалов по рейтингу</string>
-    <string name="favorite_film">Мои любимые фильмы</string>
-    <string name="favorite_serial">Мои любимые сериалы</string>
+    <string name="films_button">Films</string>
+    <string name="serials_button">Serials</string>
+    <string name="top_20_popular_film">Top 20 Popular Movies</string>
+    <string name="top_20_popular_serials">Top 20 Popular Serials</string>
+    <string name="top_20_rating_film">Top 20 Films by Rating</string>
+    <string name="top_20_rating_serial">Top 20 Serials by Rating</string>
+    <string name="search">Search</string>
+    <string name="favorite_title">My Favorite</string>
+    <string name="favorite_film">My Favorite Movies</string>
+    <string name="favorite_serials">My Favorite Serials</string>
 </resources>
