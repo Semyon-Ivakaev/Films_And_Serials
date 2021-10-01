@@ -3,10 +3,7 @@ package com.example.filmsandserials.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.room.Room
 import com.example.filmsandserials.data.Film
-import com.example.filmsandserials.model.database.AppDatabase
 import com.example.filmsandserials.model.services.RatingServiceApiImpl
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,12 +27,6 @@ class ContentViewModel: ViewModel() {
         contentViewModel.value = listOf()
         CoroutineScope(Dispatchers.IO + Job()).launch {
             contentViewModel.postValue(RatingServiceApiImpl.getTopService(type, top_type, lang))
-        }
-    }
-
-    fun loadContentFromDB(db: AppDatabase) {
-        viewModelScope.launch {
-
         }
     }
 }

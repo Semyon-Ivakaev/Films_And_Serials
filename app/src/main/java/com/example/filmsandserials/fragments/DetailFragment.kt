@@ -103,6 +103,7 @@ class DetailFragment: Fragment() {
     override fun onDetach() {
         super.onDetach()
         detailFragmentClickListener = null
+        db = null
     }
 
     companion object {
