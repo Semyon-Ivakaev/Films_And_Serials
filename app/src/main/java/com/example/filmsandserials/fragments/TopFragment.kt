@@ -168,6 +168,9 @@ class TopFragment:Fragment() {
     override fun onDetach() {
         super.onDetach()
         topFragmentClickListener = null
+        with(binding) {
+            topRecycler.adapter = null
+        }
     }
 
     companion object {
