@@ -8,10 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
+import com.example.filmsandserials.FilmsApplication
 import com.example.filmsandserials.R
 import com.example.filmsandserials.data.Film
 import com.example.filmsandserials.databinding.TopFragmentBinding
@@ -19,33 +21,37 @@ import com.example.filmsandserials.interfaces.TopFragmentClickListener
 import com.example.filmsandserials.model.database.AppDatabase
 import com.example.filmsandserials.recyclers.FilmsAndSerialsAdapter
 import com.example.filmsandserials.viewmodels.ContentViewModel
+import com.example.filmsandserials.viewmodels.DBViewModel
+import com.example.filmsandserials.viewmodels.DBViewModelFactory
 import kotlinx.coroutines.*
 
 class TopFragment:Fragment() {
     lateinit var binding: TopFragmentBinding
     private var topFragmentClickListener: TopFragmentClickListener? = null
     private val contentViewModel: ContentViewModel by viewModels()
-    private val dbViewModel: ContentViewModel by viewModels()
     private var db: AppDatabase? = null
+    private val dbViewModel: DBViewModel by activityViewModels {
+        DBViewModelFactory(FilmsApplication().repository)
+}
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         binding = TopFragmentBinding.inflate(layoutInflater, container, false)
         val view = binding.root
         db = AppDatabase.getDatabase(requireContext())
-        /*CoroutineScope(Dispatchers.IO).launch {
-            db = Room.databaseBuilder(requireContext(), AppDatabase::class.java, "ContentBD").build()
-        }*/
-
 
         val typeData = arguments?.getString("TAG")
         Log.v("App", typeData!!)
         initViews(typeData)
         initViewModel(typeData)
+
+        dbViewModel.allFavorite.observe(viewLifecycleOwner, Observer {
+            films -> setAdapter(films)
+        })
 
         return view
     }
@@ -67,24 +73,7 @@ class TopFragment:Fragment() {
                 }
             }
             contentViewModel.getContent().observe(viewLifecycleOwner, {
-                    films ->
-                setProgressBar(true)
-                CoroutineScope(Dispatchers.IO).launch {
-                    Log.v("App", "CREATE ADAPTER ${db?.getContentDao()?.getAllContentFromDb()}")
-                }
-                val adapter = FilmsAndSerialsAdapter(films, object : TopFragmentClickListener {
-                    override fun onBackButtonClicked() {
-                        // Этот метод не используется, не стал создавать пока листенер для нажатия отдельный
-                        return
-                    }
-
-                    override fun onOneViewClicked(film: Film) {
-                        topFragmentClickListener?.onOneViewClicked(film)
-                    }
-                }, db)
-                topRecycler.adapter = adapter
-                topRecycler.layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
-                setProgressBar(false)
+                    films -> setAdapter(films)
             })
         }
     }
@@ -110,7 +99,8 @@ class TopFragment:Fragment() {
                     pullToRefresh("tv", "popular", "ru-RU")
                 }
                 "DB" -> {
-                    contentViewModel.loadContentFromDB(db)
+                    Log.v("App", "TTT : GO GO GO")
+                    pullToRefreshFromDb()
                 }
             }
         }
@@ -125,6 +115,36 @@ class TopFragment:Fragment() {
                 swipeRefresh.isRefreshing = false
             }
         }
+    }
+
+    private fun pullToRefreshFromDb() {
+        with(binding) {
+            swipeRefresh.setOnRefreshListener {
+                clearAdapter()
+                setProgressBar(true)
+                dbViewModel.getContentFromDB()?.let { setAdapter(it) }
+                swipeRefresh.isRefreshing = false
+            }
+        }
+    }
+
+    private fun setAdapter(films: List<Film>) {
+        setProgressBar(true)
+        val adapter = FilmsAndSerialsAdapter(films, object : TopFragmentClickListener {
+            override fun onBackButtonClicked() {
+                // Этот метод не используется, не стал создавать пока листенер для нажатия отдельный
+                return
+            }
+
+            override fun onOneViewClicked(film: Film) {
+                topFragmentClickListener?.onOneViewClicked(film)
+            }
+        })
+        with(binding) {
+            topRecycler.adapter = adapter
+            topRecycler.layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
+        }
+        setProgressBar(false)
     }
 
     private fun setProgressBar(loader: Boolean) {

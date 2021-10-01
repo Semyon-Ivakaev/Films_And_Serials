@@ -88,7 +88,7 @@ class MovieFragmentTabs(var searchViewModel: SearchViewModel?): Fragment() {
                 override fun onOneViewClicked(film: Film) {
                     topFragmentClickListener?.onOneViewClicked(film)
                 }
-            }, null)
+            })
             searchRecycler.adapter = adapter
             searchRecycler.layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
             Log.v("AppVerbose", "Adapter is create")
