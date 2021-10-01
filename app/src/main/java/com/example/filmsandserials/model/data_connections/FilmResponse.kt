@@ -24,5 +24,7 @@ data class FilmResponseResult(
     val popularity: Double,
     @SerializedName("vote_average")
     val vote_average: Double,
+    @SerializedName("genre_ids")
+    val genre_ids: List<Int>,
     var isFavorite: Boolean
 )

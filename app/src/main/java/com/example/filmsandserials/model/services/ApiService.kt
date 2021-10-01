@@ -50,7 +50,7 @@ interface RatingService {
     ): Call<ActorResponse>
 }
 
-object RatingServiceApiImpl{
+object ApiServiceApiImpl{
     private val client = OkHttpClient.Builder()
         .addInterceptor(HttpLoggingInterceptor()
             .setLevel(HttpLoggingInterceptor.Level.BODY))

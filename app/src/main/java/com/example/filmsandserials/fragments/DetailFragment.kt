@@ -9,13 +9,15 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.filmsandserials.R
 import com.example.filmsandserials.data.Film
 import com.example.filmsandserials.databinding.DetailFragmentBinding
 import com.example.filmsandserials.interfaces.DetailFragmentClickListener
 import com.example.filmsandserials.model.database.AppDatabase
-import com.example.filmsandserials.model.services.RatingServiceApiImpl
+import com.example.filmsandserials.recyclers.ActorAdapter
 import kotlinx.coroutines.*
 
 class DetailFragment: Fragment() {
@@ -53,6 +55,7 @@ class DetailFragment: Fragment() {
             viewLifecycleOwner.lifecycleScope.launch {
                 liked = checkFavorite(content) == true
                 drawLiked(liked)
+                setAdapter(content.genre_ids)
             }
             likeContent.setOnClickListener {
                 actionWithFavorite(liked, content)
@@ -72,6 +75,13 @@ class DetailFragment: Fragment() {
                 db?.getContentDao()?.deleteContent(element)
             }
             Log.v("AppVerb", "DB: ${ db?.getContentDao()?.getAllContent().toString() }")
+        }
+    }
+
+    private fun setAdapter(list: List<Int>) {
+        with(binding) {
+            actorRecycler.adapter = ActorAdapter(list)
+            actorRecycler.layoutManager = GridLayoutManager(context, 1, RecyclerView.HORIZONTAL, false)
         }
     }
 
