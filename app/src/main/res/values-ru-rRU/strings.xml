@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Films And Serials</string>
+    <string name="top_20_popular_film">Топ 20 фильмов по популярности</string>
+    <string name="top_20_popular_serials">Топ  20 сериалов по популярности</string>
+    <string name="top_20_rating_film">Топ 20 фильмов по рейтингу</string>
+    <string name="top_20_rating_serial">Топ 20 сериалов по рейтингу</string>
+    <string name="favorite_film">Мои любимые фильмы</string>
+    <string name="search">Поиск</string>
+    <string name="films_button">Фильмы</string>
+    <string name="serials_button">Сериалы</string>
+    <string name="favorite_serials">Мои любимые сериалы</string>
+    <string name="favorite_title">Мои Любимые</string>
+</resources>
