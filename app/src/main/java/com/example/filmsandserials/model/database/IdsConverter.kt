@@ -1,0 +1,27 @@
+package com.example.filmsandserials.model.database
+
+import androidx.room.TypeConverter
+import java.util.*
+import java.util.stream.Collectors
+
+class IdsConverter {
+    @TypeConverter
+    fun fromList(list: List<Int>): String {
+        var str = ""
+        for (el in list.indices) {
+            if (el != list.size - 1) {
+                str += "$el,"
+            } else {
+                str += el
+            }
+        }
+        return str
+    }
+
+    @TypeConverter
+    fun toList(data: String): List<Int> {
+        return data.split(",").map {
+            el -> el.toInt()
+        }
+    }
+}
