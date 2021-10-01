@@ -34,7 +34,6 @@ class TopFragment:Fragment() {
         DBViewModelFactory(FilmsApplication().repository)
 }
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

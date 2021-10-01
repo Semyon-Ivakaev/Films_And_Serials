@@ -92,7 +92,7 @@
             app:layout_constraintEnd_toEndOf="@id/end_guideline"
             app:layout_constraintBottom_toBottomOf="@id/bottom_guideline">
 
-            <androidx.viewpager.widget.ViewPager
+            <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/search_viewPager"
                 android:layout_width="0dp"
                 android:layout_height="0dp"

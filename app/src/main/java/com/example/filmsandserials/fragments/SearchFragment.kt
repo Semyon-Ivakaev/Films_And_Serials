@@ -15,6 +15,7 @@ import com.example.filmsandserials.fragments.viewpager.ViewPagerAdapter
 import com.example.filmsandserials.interfaces.SearchFragmentInterface
 import com.example.filmsandserials.viewmodels.SearchViewModel
 import com.example.filmsandserials.viewmodels.SharedViewModel
+import com.google.android.material.tabs.TabLayoutMediator
 
 class SearchFragment:Fragment() {
     lateinit var binding: SearchFragmentBinding
@@ -32,8 +33,6 @@ class SearchFragment:Fragment() {
 
         initViews()
 
-
-
         return view
     }
 
@@ -45,13 +44,7 @@ class SearchFragment:Fragment() {
             searchView.isSubmitButtonEnabled = true
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
-                    // Api работает только с English словами, переводим на English
-//                    val request = searchFragmentPresenter.translateRequest(query)
-                    // Храним список, [0]-ru для вывода в snackBar, [1]-en значение в API
-                    // пока не используется
-
                     model.select(query)
-                    // Сворачиваем клавиатуру при сабмите поиска
                     val hideKeyboard = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
                     hideKeyboard?.hideSoftInputFromWindow(view?.windowToken, 0)
                     return true
@@ -61,8 +54,16 @@ class SearchFragment:Fragment() {
                     return false
                 }
             })
-            searchViewPager.adapter = ViewPagerAdapter(childFragmentManager, searchViewModel)
-            tabLayout.setupWithViewPager(searchViewPager)
+            searchViewPager.adapter = ViewPagerAdapter(requireActivity(), searchViewModel)
+
+            TabLayoutMediator(tabLayout, searchViewPager) {
+                tab, position ->
+                when (position) {
+                    0 -> tab.text = "Search Movie"
+                    else -> tab.text = "Search Serial"
+                }
+            }.attach()
+
         }
     }
 
