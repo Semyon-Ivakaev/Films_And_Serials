@@ -15,10 +15,8 @@ import com.example.filmsandserials.data.Film
 import com.example.filmsandserials.databinding.DetailFragmentBinding
 import com.example.filmsandserials.interfaces.DetailFragmentClickListener
 import com.example.filmsandserials.model.database.AppDatabase
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.example.filmsandserials.model.services.RatingServiceApiImpl
+import kotlinx.coroutines.*
 
 class DetailFragment: Fragment() {
     lateinit var binding: DetailFragmentBinding

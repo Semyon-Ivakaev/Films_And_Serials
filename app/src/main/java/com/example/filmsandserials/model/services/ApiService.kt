@@ -1,7 +1,9 @@
 package com.example.filmsandserials.model.services
 
 import android.util.Log
+import com.example.filmsandserials.data.Actor
 import com.example.filmsandserials.data.Film
+import com.example.filmsandserials.model.data_connections.ActorResponse
 import com.example.filmsandserials.model.data_connections.FilmResponse
 import com.example.filmsandserials.model.data_connections.SerialResponse
 import kotlinx.coroutines.Dispatchers
@@ -41,6 +43,11 @@ interface RatingService {
         @Query("query") request: String?,
         @Query("language") language: String
     ): Call<SerialResponse>
+
+    @GET("/3/person/{id}?api_key=c30931d27347b1937173c48adc4aa322&language=en-US")
+    fun getActorDetailInfo(
+        @Path("id") id: Int
+    ): Call<ActorResponse>
 }
 
 object RatingServiceApiImpl{
@@ -129,5 +136,16 @@ object RatingServiceApiImpl{
                     )
                 }
         }
+    }
+
+    suspend fun getActorDetailInfo(id: Int): Actor? {
+        var result: Actor? = null
+        withContext(Dispatchers.Default) {
+            ratingResponseApiService.getActorDetailInfo(id).execute().body()?.apply {
+                result = Actor(id, name, profile_path, biography)
+            }
+        }
+        Log.v("AppVerbose", result.toString())
+        return result
     }
 }
