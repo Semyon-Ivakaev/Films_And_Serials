@@ -10,9 +10,9 @@ class IdsConverter {
         var str = ""
         for (el in list.indices) {
             if (el != list.size - 1) {
-                str += "$el,"
+                str += "${list[el]},"
             } else {
-                str += el
+                str += list[el]
             }
         }
         return str

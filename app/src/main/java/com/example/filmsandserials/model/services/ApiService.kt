@@ -50,7 +50,7 @@ interface RatingService {
     ): Call<ActorResponse>
 }
 
-object RatingServiceApiImpl{
+object ApiServiceApiImpl{
     private val client = OkHttpClient.Builder()
         .addInterceptor(HttpLoggingInterceptor()
             .setLevel(HttpLoggingInterceptor.Level.BODY))
@@ -78,7 +78,8 @@ object RatingServiceApiImpl{
                             result.poster_path ?: "/1nJ6V9ryJhfIho0f4z2nmcQLKIf.jpg",
                             result.backdrop_path ?: "/1nJ6V9ryJhfIho0f4z2nmcQLKIf.jpg",
                             result.popularity,
-                            result.vote_average
+                            result.vote_average,
+                            result.genre_ids
                         )
                     }
             }
@@ -93,7 +94,8 @@ object RatingServiceApiImpl{
                             result.poster_path ?: "/1nJ6V9ryJhfIho0f4z2nmcQLKIf.jpg",
                             result.backdrop_path ?: "/1nJ6V9ryJhfIho0f4z2nmcQLKIf.jpg",
                             result.popularity,
-                            result.vote_average
+                            result.vote_average,
+                            result.genre_ids
                         )
                     }
             }
@@ -113,7 +115,8 @@ object RatingServiceApiImpl{
                         result.poster_path ?: "/1nJ6V9ryJhfIho0f4z2nmcQLKIf.jpg",
                         result.backdrop_path ?: "/1nJ6V9ryJhfIho0f4z2nmcQLKIf.jpg",
                         result.popularity,
-                        result.vote_average
+                        result.vote_average,
+                        result.genre_ids
                     )
                 }
         }
@@ -132,20 +135,26 @@ object RatingServiceApiImpl{
                         result.poster_path ?: "/1nJ6V9ryJhfIho0f4z2nmcQLKIf.jpg",
                         result.backdrop_path ?: "/1nJ6V9ryJhfIho0f4z2nmcQLKIf.jpg",
                         result.popularity,
-                        result.vote_average
+                        result.vote_average,
+                        result.genre_ids
                     )
                 }
         }
     }
 
-    suspend fun getActorDetailInfo(id: Int): Actor? {
-        var result: Actor? = null
-        withContext(Dispatchers.Default) {
-            ratingResponseApiService.getActorDetailInfo(id).execute().body()?.apply {
-                result = Actor(id, name, profile_path, biography)
+    suspend fun getActorDetailInfo(list: List<Int>): List<Actor> {
+        val result: ArrayList<Actor> = ArrayList()
+        Log.v("AppVerbose", list.toString())
+        for (el in list.indices) {
+            withContext(Dispatchers.Default) {
+                ratingResponseApiService.getActorDetailInfo(list[el]).execute().body()?.apply {
+                    Log.v("AppVerbose", "$id + $name")
+                    result.add(Actor(id, name, profile_path, biography))
+                }
             }
         }
-        Log.v("AppVerbose", result.toString())
+
+        Log.v("AppVerbose", "RESULT: $result")
         return result
     }
 }

@@ -6,10 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.filmsandserials.data.Film
-import com.example.filmsandserials.model.services.RatingServiceApiImpl
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import com.example.filmsandserials.model.services.ApiServiceApiImpl
 import kotlinx.coroutines.launch
 
 class SearchViewModel: ViewModel() {
@@ -19,10 +16,10 @@ class SearchViewModel: ViewModel() {
     init {
         viewModelScope.launch {
             if (movieList.value == null) {
-                movieList.postValue(RatingServiceApiImpl.searchMovies("Пираты", "ru-Ru"))
+                movieList.postValue(ApiServiceApiImpl.searchMovies("Пираты", "ru-Ru"))
             }
             if (serialList.value == null) {
-                serialList.postValue(RatingServiceApiImpl.searchSerials("улицы", "ru-Ru"))
+                serialList.postValue(ApiServiceApiImpl.searchSerials("улицы", "ru-Ru"))
             }
         }
     }
@@ -39,14 +36,14 @@ class SearchViewModel: ViewModel() {
         movieList = MutableLiveData()
         Log.v("APP", "refreshMovie : $request")
         viewModelScope.launch {
-            movieList.postValue(RatingServiceApiImpl.searchMovies(request, "ru-Ru"))
+            movieList.postValue(ApiServiceApiImpl.searchMovies(request, "ru-Ru"))
         }
     }
 
     fun refreshSerial(request: String?) {
         serialList = MutableLiveData()
         viewModelScope.launch {
-            serialList.postValue(RatingServiceApiImpl.searchSerials(request, "ru-Ru"))
+            serialList.postValue(ApiServiceApiImpl.searchSerials(request, "ru-Ru"))
         }
     }
 }
