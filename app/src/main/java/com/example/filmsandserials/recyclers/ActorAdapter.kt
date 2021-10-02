@@ -4,9 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmsandserials.R
+import com.example.filmsandserials.data.Actor
 
 class ActorAdapter(
-    private val list: List<Int>
+    private val list: List<Actor>
 ):RecyclerView.Adapter<ActorVH>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActorVH {
         return ActorVH(LayoutInflater.from(parent.context).inflate(R.layout.actor_vh, parent, false))

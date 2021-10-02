@@ -8,16 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.filmsandserials.R
+import com.example.filmsandserials.data.Actor
 import com.example.filmsandserials.data.Film
 import com.example.filmsandserials.databinding.DetailFragmentBinding
 import com.example.filmsandserials.interfaces.DetailFragmentClickListener
 import com.example.filmsandserials.model.database.AppDatabase
 import com.example.filmsandserials.recyclers.ActorAdapter
+import com.example.filmsandserials.viewmodels.ActorsViewModel
 import kotlinx.coroutines.*
 
 class DetailFragment: Fragment() {
@@ -26,6 +29,7 @@ class DetailFragment: Fragment() {
     private var detailFragmentClickListener: DetailFragmentClickListener? = null
 
     private var db: AppDatabase? = null
+    private val actorsViewModel: ActorsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +41,8 @@ class DetailFragment: Fragment() {
         db = AppDatabase.getDatabase(requireContext())
 
         val content = arguments?.getSerializable("element") as Film
+        actorsViewModel.getRequestForActors(content.genre_ids)
+        Log.v("AppVerbose", "Detail: $content")
         initViews(content)
 
         return view
@@ -55,11 +61,13 @@ class DetailFragment: Fragment() {
             viewLifecycleOwner.lifecycleScope.launch {
                 liked = checkFavorite(content) == true
                 drawLiked(liked)
-                setAdapter(content.genre_ids)
             }
             likeContent.setOnClickListener {
                 actionWithFavorite(liked, content)
             }
+            actorsViewModel.getActors().observe(viewLifecycleOwner, {
+                actors -> setAdapter(actors)
+            })
         }
     }
 
@@ -78,7 +86,7 @@ class DetailFragment: Fragment() {
         }
     }
 
-    private fun setAdapter(list: List<Int>) {
+    private fun setAdapter(list: List<Actor>) {
         with(binding) {
             actorRecycler.adapter = ActorAdapter(list)
             actorRecycler.layoutManager = GridLayoutManager(context, 1, RecyclerView.HORIZONTAL, false)
