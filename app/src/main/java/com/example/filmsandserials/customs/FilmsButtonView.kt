@@ -57,7 +57,7 @@ class FilmsButtonView(context: Context, attrs: AttributeSet): View(context, attr
         } else {
             val bitmap = BitmapFactory.decodeResource(resources, R.drawable.serials_button)
             painter.shader = BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.REPEAT)
-            canvas?.rotate(180f, width / 2f, 170f)
+            canvas?.rotate(180f, width / 2f, 180f)
             canvas?.drawArc(oval, 180f, 180f, true, painter)
             painter.shader = null
             painter.style = Paint.Style.STROKE
