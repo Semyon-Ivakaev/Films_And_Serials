@@ -97,7 +97,8 @@
                 app:layout_constraintTop_toBottomOf="@id/backdropPath"
                 app:layout_constraintStart_toStartOf="parent"
                 android:textSize="24sp"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
+                tools:textColor="@color/black"
                 tools:text="Test"
                 android:paddingTop="16dp"/>
 
@@ -116,7 +117,8 @@
                 app:layout_constraintTop_toBottomOf="@id/actor_recycler"
                 app:layout_constraintStart_toStartOf="parent"
                 android:textSize="24sp"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
+                tools:textColor="@color/black"
                 tools:text="Test"
                 android:paddingTop="16dp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>

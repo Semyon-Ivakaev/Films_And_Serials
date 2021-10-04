@@ -6,6 +6,8 @@
 
 [APK проекта](/files/app-debug.apk) 
 
+В приложении нет упора на дизайн. Только на функциональность!
+
 Процесс разработки фиксировался в Jira, в каждой задаче имеется ссылка на PullRequest - https://ivakaevsemyon-andersenproject.atlassian.net/jira/software/projects/FS/boards/1 .
 
 В Jira на доске остались задачи, которые реализую в дальнейшем, а так же баги, которые необходимо будет исправить в будущем.

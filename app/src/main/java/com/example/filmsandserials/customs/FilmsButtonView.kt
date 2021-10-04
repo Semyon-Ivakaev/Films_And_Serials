@@ -2,13 +2,8 @@ package com.example.filmsandserials.customs
 
 import android.content.Context
 import android.graphics.*
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.ShapeDrawable
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
 import com.example.filmsandserials.R
 
 class FilmsButtonView(context: Context, attrs: AttributeSet): View(context, attrs) {
@@ -69,10 +64,10 @@ class FilmsButtonView(context: Context, attrs: AttributeSet): View(context, attr
     private fun drawTextInCircle(canvas: Canvas?, reverse: Boolean) {
         painter.apply {
             painter.shader = null
-            textSize = 46f
+            textSize = width / 15f
             isUnderlineText = true
             style = Paint.Style.FILL
-            color = Color.RED
+            color = Color.WHITE
             isFakeBoldText = true
         }
         if (reverse) {

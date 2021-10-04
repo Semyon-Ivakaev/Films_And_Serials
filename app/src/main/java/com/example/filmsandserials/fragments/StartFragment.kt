@@ -7,9 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentResultListener
-import androidx.lifecycle.LifecycleOwner
 import com.example.filmsandserials.databinding.StartFragmentBinding
 import com.example.filmsandserials.interfaces.StartFragmentInterface
 import com.example.filmsandserials.utils.InternetConnections
