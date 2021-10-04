@@ -2,9 +2,6 @@ package com.example.filmsandserials.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
-import androidx.room.TypeConverters
-import com.example.filmsandserials.model.database.IdsConverter
 import java.io.Serializable
 
 @Entity(tableName = "Content")

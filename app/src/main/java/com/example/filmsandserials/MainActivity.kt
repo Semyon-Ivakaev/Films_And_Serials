@@ -17,7 +17,6 @@ import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity(), StartFragmentInterface, MainMenuFragmentInterface,
     SearchFragmentInterface, TopFragmentClickListener, DetailFragmentClickListener {
-//    private var db: AppDatabase? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,10 +27,6 @@ class MainActivity : AppCompatActivity(), StartFragmentInterface, MainMenuFragme
                 .add(R.id.main_container, StartFragment())
                 .commit()
         }
-
-        /*if (db == null) {
-            db = Room.databaseBuilder(this, AppDatabase::class.java, "ContentBD").build()
-        }*/
     }
 
     override fun onTypeContentButtonClicked(typeContent: String) {

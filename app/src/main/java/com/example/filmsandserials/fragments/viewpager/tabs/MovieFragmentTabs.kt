@@ -9,13 +9,10 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmsandserials.data.Film
 import com.example.filmsandserials.databinding.MovieFragmentTabBinding
-import com.example.filmsandserials.databinding.SerialFragmentTabBinding
 import com.example.filmsandserials.interfaces.TopFragmentClickListener
 import com.example.filmsandserials.recyclers.FilmsAndSerialsAdapter
 import com.example.filmsandserials.viewmodels.SearchViewModel

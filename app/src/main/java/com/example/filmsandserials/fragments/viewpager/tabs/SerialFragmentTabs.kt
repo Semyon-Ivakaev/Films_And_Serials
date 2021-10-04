@@ -2,17 +2,14 @@ package com.example.filmsandserials.fragments.viewpager.tabs
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.airbnb.lottie.LottieAnimationView
 import com.example.filmsandserials.data.Film
 import com.example.filmsandserials.databinding.SerialFragmentTabBinding
 import com.example.filmsandserials.interfaces.TopFragmentClickListener
