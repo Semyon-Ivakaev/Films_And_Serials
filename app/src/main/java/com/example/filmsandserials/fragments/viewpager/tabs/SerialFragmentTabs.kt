@@ -24,7 +24,6 @@ class SerialFragmentTabs(var searchViewModel: SearchViewModel?): Fragment() {
     lateinit var binding: SerialFragmentTabBinding
     private val model: SharedViewModel by activityViewModels()
 
-    private var progressBar: LottieAnimationView? = null
     private var topFragmentClickListener: TopFragmentClickListener? = null
 
     override fun onCreateView(

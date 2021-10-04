@@ -3,6 +3,7 @@ package com.example.filmsandserials.recyclers
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.filmsandserials.R
 import com.example.filmsandserials.data.Actor
 import com.example.filmsandserials.databinding.ActorVhBinding
@@ -25,6 +26,7 @@ class ActorVH(private var view: View): RecyclerView.ViewHolder(view) {
         with(binding) {
             Glide.with(view)
                 .load("https://image.tmdb.org/t/p/w500$url")
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .error(R.drawable.no_photo)
                 .into(actorPhoto)
         }
