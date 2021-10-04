@@ -12,6 +12,7 @@ import com.example.filmsandserials.model.database.AppDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity(), StartFragmentInterface, MainMenuFragmentInterface,
@@ -39,6 +40,11 @@ class MainActivity : AppCompatActivity(), StartFragmentInterface, MainMenuFragme
             .replace(R.id.main_container, MainMenuFragment.newInstance(typeContent))
             .addToBackStack(null)
             .commit()
+    }
+
+    override fun onCloseButtonClicked() {
+        finish()
+        exitProcess(0)
     }
 
     override fun onBackButtonClicked() {
